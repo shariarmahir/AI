@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    @apply bg-ink-50 min-h-screen text-ink-800 font-sans;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgb(20 184 166 / 0.07), transparent),
+      linear-gradient(to right, rgb(10 12 20 / 0.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(10 12 20 / 0.025) 1px, transparent 1px);
+    background-size: auto, 40px 40px, 40px 40px;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-ink-900 hover:bg-ink-950 text-white font-medium px-5 py-2.5 rounded-xl transition-all shadow-soft hover:shadow-lift active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+  }
+  .btn-secondary {
+    @apply bg-white hover:bg-ink-50 text-ink-700 border border-ink-200 font-medium px-5 py-2.5 rounded-xl transition-all shadow-soft active:scale-[0.98];
+  }
+  .btn-accent {
+    @apply bg-brand-600 hover:bg-brand-700 text-white font-medium px-5 py-2.5 rounded-xl transition-all shadow-glow active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+  }
+  .card {
+    @apply bg-white/80 backdrop-blur-sm rounded-2xl shadow-card border border-ink-100 p-6;
+  }
+  .card-flat {
+    @apply bg-white rounded-2xl border border-ink-100 p-6;
+  }
+  .input {
+    @apply w-full bg-white border border-ink-200 rounded-xl px-4 py-2.5 text-ink-800 placeholder:text-ink-400 transition focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-400;
+  }
+  .label {
+    @apply block text-sm font-medium text-ink-600 mb-1.5;
+  }
+  .eyebrow {
+    @apply inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-brand-700;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
