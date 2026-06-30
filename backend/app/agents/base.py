@@ -7,7 +7,7 @@ from ..config import get_settings
 @lru_cache
 def get_openrouter_client() -> OpenAI:
     settings = get_settings()
-    api_key = settings.OPENROUTER_API_KEY or settings.ANTHROPIC_API_KEY
+    api_key = settings.OPENROUTER_API_KEY
     if not api_key:
         raise ValueError("OPENROUTER_API_KEY not set in environment")
     return OpenAI(
@@ -17,7 +17,7 @@ def get_openrouter_client() -> OpenAI:
 
 
 class BaseAgent:
-    """Base class for all agents. Provides Claude API access via OpenRouter."""
+    """Base class for all agents. Provides model access via OpenRouter."""
 
     def __init__(self):
         self.settings = get_settings()

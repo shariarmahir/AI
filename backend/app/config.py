@@ -7,10 +7,11 @@ class Settings(BaseSettings):
     # API Keys
     ANTHROPIC_API_KEY: str = ""
     OPENROUTER_API_KEY: str = ""
+    OPENAI_API_KEY: str = ""
     GOOGLE_MAPS_API_KEY: str = ""
 
     # Model
-    CLAUDE_MODEL: str = "claude-sonnet-4-6"
+    CLAUDE_MODEL: str = "anthropic/claude-sonnet-4-5"
     CLAUDE_MAX_TOKENS: int = 2048
 
     # Embeddings
