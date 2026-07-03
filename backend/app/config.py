@@ -9,6 +9,8 @@ class Settings(BaseSettings):
     OPENROUTER_API_KEY: str = ""
     OPENAI_API_KEY: str = ""
     GOOGLE_MAPS_API_KEY: str = ""
+    GITHUB_PAT: str = ""
+    GH_TOKEN: str = ""
 
     # Model
     CLAUDE_MODEL: str = "anthropic/claude-sonnet-4-5"
