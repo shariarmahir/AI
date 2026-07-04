@@ -1,6 +1,5 @@
-import type { Config } from 'tailwindcss';
-
-const config: Config = {
+/** @type {import('tailwindcss').Config} */
+const config = {
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -34,6 +33,31 @@ const config: Config = {
           900: '#161a28',
           950: '#0a0c14',
         },
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
+        muted: 'var(--muted)',
+        'muted-foreground': 'var(--muted-foreground)',
+        card: 'var(--card)',
+        'card-foreground': 'var(--card-foreground)',
+        popover: 'var(--popover)',
+        'popover-foreground': 'var(--popover-foreground)',
+        border: 'var(--border)',
+        input: 'var(--input)',
+        ring: 'var(--ring)',
+        primary: 'var(--primary)',
+        'primary-foreground': 'var(--primary-foreground)',
+        secondary: 'var(--secondary)',
+        'secondary-foreground': 'var(--secondary-foreground)',
+        accent: 'var(--accent)',
+        'accent-foreground': 'var(--accent-foreground)',
+        destructive: 'var(--destructive)',
+        'destructive-foreground': 'var(--destructive-foreground)',
+        success: 'var(--success)',
+        'success-foreground': 'var(--success-foreground)',
+        warn: 'var(--warn)',
+        'warn-foreground': 'var(--warn-foreground)',
+        danger: 'var(--danger)',
+        'danger-foreground': 'var(--danger-foreground)',
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
@@ -63,4 +87,4 @@ const config: Config = {
   plugins: [],
 };
 
-export default config;
+module.exports = config;

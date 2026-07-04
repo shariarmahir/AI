@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Noto+Sans+Bengali:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EDF1F9;font-family:Manrope,system-ui,sans-serif}
+.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}
+.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#0F1E40;color:#fff;border-radius:4px;text-decoration:none}
+.dv-tname{font:600 13px/1.2 Manrope,sans-serif;color:#0F1E40}
+.dv-opts{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}
+.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(15,30,64,.08);color:#0F1E40;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11px/1.3 Manrope,sans-serif;color:rgba(15,30,64,.6)}
+.dv-card{max-width:100%;background:#fff;border:1px solid rgba(15,30,64,.1);border-radius:10px;box-shadow:0 2px 10px rgba(15,30,64,.07);overflow:hidden}
+.dv-opt:target .dv-oid{background:#2E6BE6;color:#fff}
+.dv-next{margin:24px 0 0;font:12px/1.5 Manrope,sans-serif;color:rgba(15,30,64,.55)}
+</style>
+</helmet>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Shastho AI — patient health agent · trustworthy blue, calm &amp; clinical · desktop + mobile</span></div>
+<div class="dv-opts">
+
+<!-- ============ 1a LANDING ============ -->
+<div class="dv-opt" id="1a">
+  <div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Landing page · desktop 1280</div>
+  <div class="dv-card" style="width:1280px;background:#F5F8FE;color:#0F1E40">
+
+    <!-- nav -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 48px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:34px;height:34px;border-radius:10px;background:#2E6BE6;display:grid;place-items:center">
+          <svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 2v12M2 8h12" stroke="#fff" stroke-width="3.2" stroke-linecap="round"></path></svg>
+        </div>
+        <div style="font-size:19px;font-weight:800;letter-spacing:-0.3px">Shastho AI</div>
+        <div style="font-family:'Noto Sans Bengali',sans-serif;font-size:12px;color:#5B6B8C;margin-top:2px">স্বাস্থ্য</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:28px;font-size:14px;font-weight:600;color:#3D4E73">
+        <span>How it works</span><span>Features</span><span>Hospitals</span>
+        <span style="font-family:'Noto Sans Bengali',sans-serif">বাংলা</span>
+        <div style="background:#2E6BE6;color:#fff;padding:11px 20px;border-radius:10px;font-size:14px;font-weight:700">Open the app</div>
+      </div>
+    </div>
+
+    <!-- hero -->
+    <div style="display:grid;grid-template-columns:1fr 460px;gap:48px;padding:44px 48px 56px;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:22px">
+        <div style="display:inline-flex;align-self:flex-start;align-items:center;gap:8px;background:#EAF1FE;border:1px solid #D3E1FA;color:#1E4FC0;font-size:12.5px;font-weight:700;padding:7px 12px;border-radius:99px">
+          <span style="width:7px;height:7px;border-radius:50%;background:#2E6BE6"></span>
+          AI health agent for patients in Bangladesh
+        </div>
+        <h1 style="margin:0;font-size:56px;line-height:1.06;letter-spacing:-1.8px;font-weight:800">Your health,<br>understood in seconds.</h1>
+        <p style="margin:0;font-size:17px;line-height:1.6;color:#5B6B8C;max-width:520px;text-wrap:pretty">Upload a prescription, an injury photo, a lab report, or a medicine strip — Shastho AI reads it, explains it in plain language, and finds the right care near you.</p>
+
+        <!-- mock composer -->
+        <div style="background:#fff;border:1px solid #E3EAF6;border-radius:16px;box-shadow:0 10px 28px rgba(15,30,64,.08);padding:18px;display:flex;flex-direction:column;gap:14px;max-width:560px">
+          <div style="font-size:15px;color:#8B98B5">Ask anything, or drop a file here…</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="display:flex;align-items:center;gap:7px;border:1px dashed #B9CCF0;border-radius:99px;padding:7px 13px;font-size:12.5px;font-weight:700;color:#1E4FC0;background:#F4F8FE"><span style="font-size:11px;background:#2E6BE6;color:#fff;border-radius:5px;padding:1px 5px;font-weight:800">Rx</span>Prescription</div>
+            <div style="display:flex;align-items:center;gap:7px;border:1px dashed #B9CCF0;border-radius:99px;padding:7px 13px;font-size:12.5px;font-weight:700;color:#1E4FC0;background:#F4F8FE"><span style="width:9px;height:9px;border-radius:3px;background:#E05252"></span>Injury photo</div>
+            <div style="display:flex;align-items:center;gap:7px;border:1px dashed #B9CCF0;border-radius:99px;padding:7px 13px;font-size:12.5px;font-weight:700;color:#1E4FC0;background:#F4F8FE"><span style="width:9px;height:9px;border-radius:50%;background:#12A17C"></span>Lab report</div>
+            <div style="display:flex;align-items:center;gap:7px;border:1px dashed #B9CCF0;border-radius:99px;padding:7px 13px;font-size:12.5px;font-weight:700;color:#1E4FC0;background:#F4F8FE"><span style="width:9px;height:9px;border-radius:50%;border:2.5px solid #E8A13D;box-sizing:border-box"></span>Medicine</div>
+            <div style="margin-left:auto;width:40px;height:40px;border-radius:12px;background:#2E6BE6;display:grid;place-items:center">
+              <svg width="15" height="15" viewBox="0 0 16 16"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:18px;font-size:12.5px;font-weight:600;color:#5B6B8C">
+          <span style="display:flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 14 14"><path d="m2.5 7.5 3 3 6-6.5" stroke="#12A17C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>Reviewed with registered physicians</span>
+          <span style="display:flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 14 14"><path d="m2.5 7.5 3 3 6-6.5" stroke="#12A17C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"></svg>Your data stays private</span>
+        </div>
+      </div>
+
+      <!-- hero map -->
+      <div style="position:relative;height:540px">
+        <div style="position:absolute;inset:-30px -20px auto;height:560px;background:radial-gradient(closest-side,#DDE8FB,transparent 72%)"></div>
+        <img src="assets/bd-dotmap.png" alt="" style="position:relative;width:430px;display:block;margin:0 auto;filter:saturate(.92)">
+        <!-- pins -->
+        <div style="position:absolute;left:52%;top:46%;transform:translate(-50%,-50%)">
+          <div style="width:46px;height:46px;border-radius:50%;background:rgba(46,107,230,.16);display:grid;place-items:center"><div style="width:16px;height:16px;border-radius:50%;background:#2E6BE6;border:3.5px solid #fff;box-shadow:0 2px 8px rgba(15,30,64,.3)"></div></div>
+        </div>
+        <div style="position:absolute;left:79%;top:69%;transform:translate(-50%,-50%)"><div style="width:13px;height:13px;border-radius:50%;background:#2E6BE6;border:3px solid #fff;box-shadow:0 2px 6px rgba(15,30,64,.28)"></div></div>
+        <div style="position:absolute;left:32%;top:62%;transform:translate(-50%,-50%)"><div style="width:13px;height:13px;border-radius:50%;background:#2E6BE6;border:3px solid #fff;box-shadow:0 2px 6px rgba(15,30,64,.28)"></div></div>
+        <!-- floating cards -->
+        <div style="position:absolute;left:-12px;top:96px;background:#fff;border:1px solid #E3EAF6;border-radius:13px;box-shadow:0 12px 26px rgba(15,30,64,.12);padding:12px 15px;display:flex;align-items:center;gap:11px">
+          <div style="width:32px;height:32px;border-radius:9px;background:#EAF1FE;display:grid;place-items:center;font-size:11.5px;font-weight:800;color:#1E4FC0">Rx</div>
+          <div><div style="font-size:12.5px;font-weight:800">Prescription read</div><div style="font-size:11.5px;color:#5B6B8C;font-weight:600">3 medicines · schedule set</div></div>
+        </div>
+        <div style="position:absolute;right:-6px;bottom:120px;background:#fff;border:1px solid #E3EAF6;border-radius:13px;box-shadow:0 12px 26px rgba(15,30,64,.12);padding:12px 15px;display:flex;align-items:center;gap:11px">
+          <div style="width:32px;height:32px;border-radius:9px;background:#E9F7F2;display:grid;place-items:center"><div style="width:11px;height:11px;border-radius:50%;background:#12A17C;border:2.5px solid #fff;outline:2px solid #12A17C"></div></div>
+          <div><div style="font-size:12.5px;font-weight:800">Nearest hospital</div><div style="font-size:11.5px;color:#5B6B8C;font-weight:600">Square Hospital · 1.2 km</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- features -->
+    <div style="padding:0 48px 48px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+      <div style="background:#fff;border:1px solid #E3EAF6;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:10px">
+        <div style="width:38px;height:38px;border-radius:11px;background:#EAF1FE;display:grid;place-items:center;font-size:12.5px;font-weight:800;color:#1E4FC0">Rx</div>
+        <div style="font-size:15.5px;font-weight:800">Prescription reading</div>
+        <div style="font-size:13px;line-height:1.55;color:#5B6B8C;text-wrap:pretty">Handwritten or printed — get every medicine, dose and timing explained.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #E3EAF6;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:10px">
+        <div style="width:38px;height:38px;border-radius:11px;background:#FDEEEE;display:grid;place-items:center"><span style="width:12px;height:12px;border-radius:4px;background:#E05252"></span></div>
+        <div style="font-size:15.5px;font-weight:800">Injury photo check</div>
+        <div style="font-size:13px;line-height:1.55;color:#5B6B8C;text-wrap:pretty">Photograph a wound or swelling for first-aid steps and urgency advice.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #E3EAF6;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:10px">
+        <div style="width:38px;height:38px;border-radius:11px;background:#FBF3E4;display:grid;place-items:center"><span style="width:13px;height:13px;border-radius:50%;border:3px solid #E8A13D;box-sizing:border-box"></span></div>
+        <div style="font-size:15.5px;font-weight:800">Medicine identification</div>
+        <div style="font-size:13px;line-height:1.55;color:#5B6B8C;text-wrap:pretty">Snap a strip or bottle to confirm what it is, and what it's for.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #E3EAF6;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:10px">
+        <div style="width:38px;height:38px;border-radius:11px;background:#E9F7F2;display:grid;place-items:center"><span style="width:11px;height:11px;border-radius:50%;background:#12A17C"></span></div>
+        <div style="font-size:15.5px;font-weight:800">Hospital finder</div>
+        <div style="font-size:13px;line-height:1.55;color:#5B6B8C;text-wrap:pretty">See nearby hospitals with open hours, emergency units and directions.</div>
+      </div>
+    </div>
+
+    <!-- emergency strip -->
+    <div style="background:#0F1E40;color:#fff;padding:16px 48px;display:flex;align-items:center;justify-content:space-between">
+      <div style="font-size:13.5px;font-weight:600;color:#C6D3EE">Shastho AI gives guidance, not a diagnosis. Always confirm with a doctor.</div>
+      <div style="display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:800"><span style="width:9px;height:9px;border-radius:50%;background:#FF6B6B"></span>In an emergency, call <span style="color:#FF9B9B">999</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 1b CHAT ============ -->
+<div class="dv-opt" id="1b">
+  <div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Chat with uploads · prescription + injury analysis · desktop 1280</div>
+  <div class="dv-card" style="width:1280px;display:grid;grid-template-columns:248px 1fr;background:#F5F8FE;color:#0F1E40" data-screen-label="Chat">
+
+    <!-- sidebar -->
+    <div style="background:#fff;border-right:1px solid #E3EAF6;display:flex;flex-direction:column;padding:18px 14px;gap:6px">
+      <div style="display:flex;align-items:center;gap:9px;padding:4px 8px 16px">
+        <div style="width:30px;height:30px;border-radius:9px;background:#2E6BE6;display:grid;place-items:center"><svg width="14" height="14" viewBox="0 0 16 16"><path d="M8 2v12M2 8h12" stroke="#fff" stroke-width="3.2" stroke-linecap="round"></path></svg></div>
+        <div style="font-size:16px;font-weight:800">Shastho AI</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:#EAF1FE;color:#1E4FC0;border-radius:10px;padding:10px 12px;font-size:13.5px;font-weight:800"><span style="width:8px;height:8px;border-radius:50%;background:#2E6BE6"></span>Chat</div>
+      <div style="display:flex;align-items:center;gap:10px;border-radius:10px;padding:10px 12px;font-size:13.5px;font-weight:700;color:#5B6B8C"><span style="width:8px;height:8px;border-radius:2.5px;background:#B9C6E0"></span>Dashboard</div>
+      <div style="display:flex;align-items:center;gap:10px;border-radius:10px;padding:10px 12px;font-size:13.5px;font-weight:700;color:#5B6B8C"><span style="width:8px;height:8px;border-radius:50%;border:2px solid #B9C6E0;box-sizing:border-box"></span>Hospitals</div>
+      <div style="display:flex;align-items:center;gap:10px;border-radius:10px;padding:10px 12px;font-size:13.5px;font-weight:700;color:#5B6B8C"><span style="width:8px;height:8px;border-radius:50%;background:#B9C6E0"></span>Reminders</div>
+      <div style="margin:16px 8px 8px;font-size:11px;font-weight:800;letter-spacing:.8px;color:#8B98B5">RECENT</div>
+      <div style="border-radius:10px;padding:9px 12px;font-size:13px;font-weight:700;background:#F1F5FC">Baba's prescription check</div>
+      <div style="border-radius:10px;padding:9px 12px;font-size:13px;font-weight:600;color:#5B6B8C">Blood test report, June</div>
+      <div style="border-radius:10px;padding:9px 12px;font-size:13px;font-weight:600;color:#5B6B8C">Knee pain after cricket</div>
+      <div style="margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px 8px;border-top:1px solid #E3EAF6">
+        <div style="width:32px;height:32px;border-radius:50%;background:#0F1E40;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:800">TA</div>
+        <div><div style="font-size:13px;font-weight:800">Tanvir Ahmed</div><div style="font-size:11px;color:#8B98B5;font-weight:600">Dhanmondi, Dhaka</div></div>
+      </div>
+    </div>
+
+    <!-- chat pane -->
+    <div style="display:flex;flex-direction:column;min-width:0">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid #E3EAF6;background:rgba(255,255,255,.7)">
+        <div style="display:flex;align-items:center;gap:10px"><div style="font-size:15px;font-weight:800">Baba's prescription check</div><div style="font-size:11.5px;font-weight:700;color:#12A17C;background:#E9F7F2;padding:4px 9px;border-radius:99px">Verified sources</div></div>
+        <div style="font-size:12.5px;font-weight:600;color:#8B98B5">Today, 4:12 PM</div>
+      </div>
+
+      <div style="flex:1;overflow:hidden;padding:26px 96px 12px;display:flex;flex-direction:column;gap:20px">
+        <!-- user msg -->
+        <div style="align-self:flex-end;max-width:520px;display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+          <div style="background:#2E6BE6;color:#fff;border-radius:16px 16px 4px 16px;padding:13px 17px;font-size:14.5px;line-height:1.55;font-weight:500">This is my father's prescription from today. Can you explain what he needs to take?</div>
+          <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #E3EAF6;border-radius:12px;padding:9px 12px 9px 9px;box-shadow:0 3px 10px rgba(15,30,64,.06)">
+            <div style="width:44px;height:44px;border-radius:8px;background:repeating-linear-gradient(45deg,#EAF1FE,#EAF1FE 6px,#F5F8FE 6px,#F5F8FE 12px);border:1px solid #D3E1FA;display:grid;place-items:center;font-family:ui-monospace,monospace;font-size:8px;color:#5B6B8C">IMG</div>
+            <div><div style="font-size:12.5px;font-weight:800">prescription-scan.jpg</div><div style="font-size:11px;color:#8B98B5;font-weight:600">1.8 MB · uploaded</div></div>
+          </div>
+        </div>
+
+        <!-- ai analysis -->
+        <div style="align-self:flex-start;max-width:640px;display:flex;gap:12px">
+          <div style="width:30px;height:30px;border-radius:9px;background:#2E6BE6;flex:none;display:grid;place-items:center;margin-top:2px"><svg width="13" height="13" viewBox="0 0 16 16"><path d="M8 2v12M2 8h12" stroke="#fff" stroke-width="3.2" stroke-linecap="round"></path></svg></div>
+          <div style="display:flex;flex-direction:column;gap:10px;min-width:0">
+            <div style="background:#fff;border:1px solid #E3EAF6;border-radius:4px 16px 16px 16px;padding:14px 18px;font-size:14.5px;line-height:1.6;color:#26355A">I read the prescription clearly. Dr. Rahman has prescribed <b>3 medicines</b> for your father — here's the full schedule:</div>
+            <div style="background:#fff;border:1px solid #E3EAF6;border-radius:16px;overflow:hidden;box-shadow:0 6px 18px rgba(15,30,64,.06)">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 18px;background:#F8FAFE;border-bottom:1px solid #E3EAF6">
+                <div style="display:flex;align-items:center;gap:9px;font-size:13px;font-weight:800"><span style="font-size:10.5px;background:#2E6BE6;color:#fff;border-radius:5px;padding:2px 6px;font-weight:800">Rx</span>Prescription analysis</div>
+                <div style="font-size:11.5px;font-weight:700;color:#12A17C;display:flex;align-items:center;gap:5px"><svg width="11" height="11" viewBox="0 0 14 14"><path d="m2.5 7.5 3 3 6-6.5" stroke="#12A17C" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"></svg>High confidence read</div>
+              </div>
+              <div style="padding:6px 18px">
+                <div style="display:grid;grid-template-columns:1fr auto;gap:4px 16px;align-items:center;padding:12px 0;border-bottom:1px solid #EEF2FA">
+                  <div><div style="font-size:14px;font-weight:800">Napa Extra <span style="color:#5B6B8C;font-weight:600">· Paracetamol 500mg</span></div><div style="font-size:12px;color:#5B6B8C;font-weight:600;margin-top:2px">For fever &amp; pain · after meals · 5 days</div></div>
+                  <div style="display:flex;gap:5px"><span style="font-size:11px;font-weight:800;color:#1E4FC0;background:#EAF1FE;padding:4px 8px;border-radius:6px">Morning</span><span style="font-size:11px;font-weight:800;color:#1E4FC0;background:#EAF1FE;padding:4px 8px;border-radius:6px">Night</span></div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr auto;gap:4px 16px;align-items:center;padding:12px 0;border-bottom:1px solid #EEF2FA">
+                  <div><div style="font-size:14px;font-weight:800">Seclo 20 <span style="color:#5B6B8C;font-weight:600">· Omeprazole 20mg</span></div><div style="font-size:12px;color:#5B6B8C;font-weight:600;margin-top:2px">For gastric protection · before breakfast · 10 days</div></div>
+                  <div style="display:flex;gap:5px"><span style="font-size:11px;font-weight:800;color:#1E4FC0;background:#EAF1FE;padding:4px 8px;border-radius:6px">Morning</span></div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr auto;gap:4px 16px;align-items:center;padding:12px 0">
+                  <div><div style="font-size:14px;font-weight:800">Amoxicillin 500 <span style="color:#5B6B8C;font-weight:600">· antibiotic</span></div><div style="font-size:12px;color:#5B6B8C;font-weight:600;margin-top:2px">Must finish the full course · every 8 hours · 7 days</div></div>
+                  <div style="display:flex;gap:5px"><span style="font-size:11px;font-weight:800;color:#1E4FC0;background:#EAF1FE;padding:4px 8px;border-radius:6px">8 AM</span><span style="font-size:11px;font-weight:800;color:#1E4FC0;background:#EAF1FE;padding:4px 8px;border-radius:6px">4 PM</span><span style="font-size:11px;font-weight:800;color:#1E4FC0;background:#EAF1FE;padding:4px 8px;border-radius:6px">12 AM</span></div>
+                </div>
+              </div>
+              <div style="margin:0 18px 14px;background:#FBF3E4;border:1px solid #F2DFB6;border-radius:10px;padding:10px 13px;font-size:12.5px;line-height:1.5;color:#8A6414;font-weight:600">Note: antibiotics should not be skipped even if he feels better. Take with a full glass of water.</div>
+              <div style="display:flex;gap:10px;padding:0 18px 16px">
+                <div style="background:#2E6BE6;color:#fff;font-size:13px;font-weight:800;padding:10px 16px;border-radius:9px">Set all reminders</div>
+                <div style="border:1px solid #D3E1FA;color:#1E4FC0;font-size:13px;font-weight:800;padding:10px 16px;border-radius:9px;background:#fff">Save to records</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- user injury -->
+        <div style="align-self:flex-end;max-width:520px;display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+          <div style="background:#2E6BE6;color:#fff;border-radius:16px 16px 4px 16px;padding:13px 17px;font-size:14.5px;line-height:1.55;font-weight:500">Also — he scraped his arm when he fell. Does this look serious?</div>
+          <div style="width:190px;height:130px;border-radius:12px;background:repeating-linear-gradient(45deg,#EAF1FE,#EAF1FE 8px,#F5F8FE 8px,#F5F8FE 16px);border:1px solid #D3E1FA;display:grid;place-items:center;font-family:ui-monospace,monospace;font-size:10px;color:#5B6B8C;box-shadow:0 3px 10px rgba(15,30,64,.06)">injury photo</div>
+        </div>
+
+        <!-- ai injury assessment -->
+        <div style="align-self:flex-start;max-width:640px;display:flex;gap:12px">
+          <div style="width:30px;height:30px;border-radius:9px;background:#2E6BE6;flex:none;display:grid;place-items:center;margin-top:2px"><svg width="13" height="13" viewBox="0 0 16 16"><path d="M8 2v12M2 8h12" stroke="#fff" stroke-width="3.2" stroke-linecap="round"></path></svg></div>
+          <div style="background:#fff;border:1px solid #E3EAF6;border-radius:4px 16px 16px 16px;padding:16px 18px;display:flex;flex-direction:column;gap:12px;min-width:0;box-shadow:0 6px 18px rgba(15,30,64,.06)">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:24px">
+              <div style="font-size:13px;font-weight:800">Injury assessment</div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <span style="font-size:11.5px;font-weight:800;color:#12A17C;background:#E9F7F2;padding:4px 10px;border-radius:99px">Mild abrasion</span>
+                <div style="display:flex;gap:3px"><span style="width:22px;height:6px;border-radius:3px;background:#12A17C"></span><span style="width:22px;height:6px;border-radius:3px;background:#E8EDF7"></span><span style="width:22px;height:6px;border-radius:3px;background:#E8EDF7"></span></div>
+              </div>
+            </div>
+            <div style="font-size:14px;line-height:1.6;color:#26355A">This looks like a superficial scrape — treatable at home. Do this now:</div>
+            <div style="display:flex;flex-direction:column;gap:7px;font-size:13.5px;line-height:1.5;color:#26355A;font-weight:600">
+              <div style="display:flex;gap:9px"><span style="flex:none;width:19px;height:19px;border-radius:50%;background:#EAF1FE;color:#1E4FC0;font-size:11px;font-weight:800;display:grid;place-items:center">1</span>Rinse gently with clean water for 2–3 minutes.</div>
+              <div style="display:flex;gap:9px"><span style="flex:none;width:19px;height:19px;border-radius:50%;background:#EAF1FE;color:#1E4FC0;font-size:11px;font-weight:800;display:grid;place-items:center">2</span>Apply an antiseptic (Savlon or Povidone-iodine).</div>
+              <div style="display:flex;gap:9px"><span style="flex:none;width:19px;height:19px;border-radius:50%;background:#EAF1FE;color:#1E4FC0;font-size:11px;font-weight:800;display:grid;place-items:center">3</span>Cover loosely with sterile gauze; change daily.</div>
+            </div>
+            <div style="background:#FDEEEE;border:1px solid #F5CFCF;border-radius:10px;padding:10px 13px;font-size:12.5px;line-height:1.5;color:#A33B3B;font-weight:600">See a doctor if you notice spreading redness, pus, or fever within 48 hours — especially given his age.</div>
+            <div style="align-self:flex-start;border:1px solid #D3E1FA;color:#1E4FC0;font-size:13px;font-weight:800;padding:9px 15px;border-radius:9px;background:#F4F8FE;display:flex;align-items:center;gap:7px"><span style="width:8px;height:8px;border-radius:50%;background:#12A17C"></span>Find a doctor nearby</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- composer -->
+      <div style="padding:14px 96px 22px">
+        <div style="background:#fff;border:1.5px solid #C9D9F5;border-radius:16px;box-shadow:0 8px 24px rgba(15,30,64,.08);padding:14px 16px;display:flex;flex-direction:column;gap:12px">
+          <div style="font-size:14.5px;color:#8B98B5">Reply, or drag &amp; drop a file anywhere…</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:34px;height:34px;border-radius:10px;border:1.5px dashed #B9CCF0;display:grid;place-items:center"><svg width="13" height="13" viewBox="0 0 16 16"><path d="M8 3v10M3 8h10" stroke="#1E4FC0" stroke-width="2.4" stroke-linecap="round"></path></svg></div>
+            <div style="font-size:12px;font-weight:700;color:#5B6B8C">Prescription · Injury photo · Report · Medicine</div>
+            <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
+              <div style="font-size:11.5px;font-weight:700;color:#8B98B5;font-family:'Noto Sans Bengali',sans-serif">বাংলায় লিখুন</div>
+              <div style="width:40px;height:40px;border-radius:12px;background:#2E6BE6;display:grid;place-items:center"><svg width="15" height="15" viewBox="0 0 16 16"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg></div>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center;font-size:11px;font-weight:600;color:#8B98B5;margin-top:10px">Shastho AI can make mistakes. For emergencies call 999.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 1c DASHBOARD ============ -->
+<div class="dv-opt" id="1c">
+  <div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Patient dashboard · reminders, records, appointments · desktop 1280</div>
+  <div class="dv-card" style="width:1280px;display:grid;grid-template-columns:248px 1fr;background:#F5F8FE;color:#0F1E40" data-screen-label="Dashboard">
+
+    <!-- sidebar -->
+    <div style="background:#fff;border-right:1px solid #E3EAF6;display:flex;flex-direction:column;padding:18px 14px;gap:6px">
+      <div style="display:flex;align-items:center;gap:9px;padding:4px 8px 16px">
+        <div style="width:30px;height:30px;border-radius:9px;background:#2E6BE6;display:grid;place-items:center"><svg width="14" height="14" viewBox="0 0 16 16"><path d="M8 2v12M2 8h12" stroke="#fff" stroke-width="3.2" stroke-linecap="round"></path></svg></div>
+        <div style="font-size:16px;font-weight:800">Shastho AI</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;border-radius:10px;padding:10px 12px;font-size:13.5px;font-weight:700;color:#5B6B8C"><span style="width:8px;height:8px;border-radius:50%;background:#B9C6E0"></span>Chat</div>
+      <div style="display:flex;align-items:center;gap:10px;background:#EAF1FE;color:#1E4FC0;border-radius:10px;padding:10px 12px;font-size:13.5px;font-weight:800"><span style="width:8px;height:8px;border-radius:2.5px;background:#2E6BE6"></span>Dashboard</div>
+      <div style="display:flex;align-items:center;gap:10px;border-radius:10px;padding:10px 12px;font-size:13.5px;font-weight:700;color:#5B6B8C"><span style="width:8px;height:8px;border-radius:50%;border:2px solid #B9C6E0;box-sizing:border-box"></span>Hospitals</div>
+      <div style="display:flex;align-items:center;gap:10px;border-radius:10px;padding:10px 12px;font-size:13.5px;font-weight:700;color:#5B6B8C"><span style="width:8px;height:8px;border-radius:50%;background:#B9C6E0"></span>Reminders</div>
+      <div style="margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px 8px;border-top:1px solid #E3EAF6">
+        <div style="width:32px;height:32px;border-radius:50%;background:#0F1E40;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:800">TA</div>
+        <div><div style="font-size:13px;font-weight:800">Tanvir Ahmed</div><div style="font-size:11px;color:#8B98B5;font-weight:600">Dhanmondi, Dhaka</div></div>
+      </div>
+    </div>
+
+    <!-- main -->
+    <div style="padding:28px 32px;display:flex;flex-direction:column;gap:22px;min-width:0">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between">
+        <div><div style="font-size:13px;font-weight:700;color:#8B98B5">Friday, 4 July</div><div style="font-size:26px;font-weight:800;letter-spacing:-0.6px;margin-top:2px">Good afternoon, Tanvir</div></div>
+        <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #E3EAF6;border-radius:12px;padding:10px 14px;font-size:13px;font-weight:700;color:#5B6B8C"><svg width="13" height="13" viewBox="0 0 14 14"><circle cx="6" cy="6" r="4.4" stroke="#8B98B5" stroke-width="1.8" fill="none"></circle><path d="m9.5 9.5 3 3" stroke="#8B98B5" stroke-width="1.8" stroke-linecap="round"></path></svg>Ask about your health…</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:18px;align-items:start">
+        <!-- meds today -->
+        <div style="background:#fff;border:1px solid #E3EAF6;border-radius:16px;padding:20px 22px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:center;justify-content:space-between"><div style="font-size:15.5px;font-weight:800">Today's medicines</div><div style="font-size:12px;font-weight:800;color:#1E4FC0">Baba's schedule ›</div></div>
+          <div style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:12px;background:#F2FBF7;border:1px solid #CFEEE1">
+            <div style="width:34px;height:34px;border-radius:50%;background:#12A17C;display:grid;place-items:center"><svg width="13" height="13" viewBox="0 0 14 14"><path d="m2.5 7.5 3 3 6-6.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg></div>
+            <div style="flex:1"><div style="font-size:14px;font-weight:800">Seclo 20 · before breakfast</div><div style="font-size:12px;color:#3E8E71;font-weight:700">Taken at 7:40 AM</div></div>
+            <div style="font-size:12.5px;font-weight:800;color:#8B98B5">8:00 AM</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:12px;background:#F8FAFE;border:1.5px solid #2E6BE6;box-shadow:0 4px 14px rgba(46,107,230,.12)">
+            <div style="width:34px;height:34px;border-radius:50%;background:#EAF1FE;display:grid;place-items:center"><span style="width:10px;height:10px;border-radius:50%;background:#2E6BE6"></span></div>
+            <div style="flex:1"><div style="font-size:14px;font-weight:800">Amoxicillin 500 · with water</div><div style="font-size:12px;color:#1E4FC0;font-weight:700">Due in 25 minutes</div></div>
+            <div style="background:#2E6BE6;color:#fff;font-size:12px;font-weight:800;padding:8px 14px;border-radius:8px">Mark taken</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:12px;background:#F8FAFE;border:1px solid #E3EAF6">
+            <div style="width:34px;height:34px;border-radius:50%;background:#EEF2FA;display:grid;place-items:center"><span style="width:10px;height:10px;border-radius:50%;border:2.5px solid #B9C6E0;box-sizing:border-box"></span></div>
+            <div style="flex:1"><div style="font-size:14px;font-weight:800">Napa Extra · after dinner</div><div style="font-size:12px;color:#8B98B5;font-weight:700">Tonight</div></div>
+            <div style="font-size:12.5px;font-weight:800;color:#8B98B5">9:00 PM</div>
+          </div>
+        </div>
+
+        <!-- right column -->
+        <div style="display:flex;flex-direction:column;gap:18px">
+          <div style="background:#0F1E40;color:#fff;border-radius:16px;padding:20px 22px;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden">
+            <img src="assets/bd-dotmap.png" alt="" style="position:absolute;right:-60px;top:-30px;width:220px;opacity:.18;filter:brightness(2.4)">
+            <div style="font-size:11.5px;font-weight:800;letter-spacing:.8px;color:#8FA5D6">NEXT APPOINTMENT</div>
+            <div style="font-size:17px;font-weight:800;position:relative">Dr. Nusrat Jahan <span style="font-weight:600;color:#C6D3EE">· Medicine</span></div>
+            <div style="font-size:13px;font-weight:600;color:#C6D3EE;position:relative">Tue 8 July, 5:30 PM · Labaid Specialized, Dhanmondi</div>
+            <div style="display:flex;gap:9px;margin-top:6px;position:relative">
+              <div style="background:#2E6BE6;font-size:12.5px;font-weight:800;padding:9px 14px;border-radius:8px">Get directions</div>
+              <div style="border:1px solid rgba(255,255,255,.28);font-size:12.5px;font-weight:800;padding:9px 14px;border-radius:8px">Reschedule</div>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid #E3EAF6;border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;gap:4px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><div style="font-size:15px;font-weight:800">Recent records</div><div style="font-size:12px;font-weight:800;color:#1E4FC0">All ›</div></div>
+            <div style="display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid #EEF2FA">
+              <div style="width:32px;height:32px;border-radius:9px;background:#EAF1FE;display:grid;place-items:center;font-size:11px;font-weight:800;color:#1E4FC0">Rx</div>
+              <div style="flex:1"><div style="font-size:13px;font-weight:800">Prescription · Dr. Rahman</div><div style="font-size:11.5px;color:#8B98B5;font-weight:600">Today</div></div>
+              <span style="font-size:11px;font-weight:800;color:#12A17C;background:#E9F7F2;padding:4px 9px;border-radius:99px">Analyzed</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid #EEF2FA">
+              <div style="width:32px;height:32px;border-radius:9px;background:#E9F7F2;display:grid;place-items:center"><span style="width:10px;height:10px;border-radius:50%;background:#12A17C"></span></div>
+              <div style="flex:1"><div style="font-size:13px;font-weight:800">CBC blood report</div><div style="font-size:11.5px;color:#8B98B5;font-weight:600">28 June</div></div>
+              <span style="font-size:11px;font-weight:800;color:#12A17C;background:#E9F7F2;padding:4px 9px;border-radius:99px">Analyzed</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:11px;padding:9px 0">
+              <div style="width:32px;height:32px;border-radius:9px;background:#FDEEEE;display:grid;place-items:center"><span style="width:10px;height:10px;border-radius:3px;background:#E05252"></span></div>
+              <div style="flex:1"><div style="font-size:13px;font-weight:800">Arm injury photo</div><div style="font-size:11.5px;color:#8B98B5;font-weight:600">Today · follow up in 2 days</div></div>
+              <span style="font-size:11px;font-weight:800;color:#8A6414;background:#FBF3E4;padding:4px 9px;border-radius:99px">Watching</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 1d HOSPITALS ============ -->
+<div class="dv-opt" id="1d">
+  <div class="dv-olabel"><a class="dv-oid" href="#1d">1d</a>Nearby hospitals · map + list · desktop 1280</div>
+  <div class="dv-card" style="width:1280px;height:780px;display:grid;grid-template-columns:248px 1fr;background:#F5F8FE;color:#0F1E40" data-screen-label="Hospitals">
+
+    <!-- sidebar -->
+    <div style="background:#fff;border-right:1px solid #E3EAF6;display:flex;flex-direction:column;padding:18px 14px;gap:6px">
+      <div style="display:flex;align-items:center;gap:9px;padding:4px 8px 16px">
+        <div style="width:30px;height:30px;border-radius:9px;background:#2E6BE6;display:grid;place-items:center"><svg width="14" height="14" viewBox="0 0 16 16"><path d="M8 2v12M2 8h12" stroke="#fff" stroke-width="3.2" stroke-linecap="round"></path></svg></div>
+        <div style="font-size:16px;font-weight:800">Shastho AI</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;border-radius:10px;padding:10px 12px;font-size:13.5px;font-weight:700;color:#5B6B8C"><span style="width:8px;height:8px;border-radius:50%;background:#B9C6E0"></span>Chat</div>
+      <div style="display:flex;align-items:center;gap:10px;border-radius:10px;padding:10px 12px;font-size:13.5px;font-weight:700;color:#5B6B8C"><span style="width:8px;height:8px;border-radius:2.5px;background:#B9C6E0"></span>Dashboard</div>
+      <div style="display:flex;align-items:center;gap:10px;background:#EAF1FE;color:#1E4FC0;border-radius:10px;padding:10px 12px;font-size:13.5px;font-weight:800"><span style="width:8px;height:8px;border-radius:50%;border:2px solid #2E6BE6;box-sizing:border-box"></span>Hospitals</div>
+      <div style="display:flex;align-items:center;gap:10px;border-radius:10px;padding:10px 12px;font-size:13.5px;font-weight:700;color:#5B6B8C"><span style="width:8px;height:8px;border-radius:50%;background:#B9C6E0"></span>Reminders</div>
+      <div style="margin-top:auto;background:#FDEEEE;border:1px solid #F5CFCF;border-radius:12px;padding:13px 14px">
+        <div style="font-size:12.5px;font-weight:800;color:#A33B3B;display:flex;align-items:center;gap:7px"><span style="width:8px;height:8px;border-radius:50%;background:#E05252"></span>Emergency</div>
+        <div style="font-size:11.5px;color:#A33B3B;font-weight:600;margin-top:3px;line-height:1.45">Call 999 for a national ambulance immediately.</div>
+      </div>
+    </div>
+
+    <!-- main split -->
+    <div style="display:grid;grid-template-columns:1fr 470px;min-width:0">
+      <!-- list -->
+      <div style="padding:24px 26px;display:flex;flex-direction:column;gap:14px;min-width:0;overflow:hidden">
+        <div style="font-size:22px;font-weight:800;letter-spacing:-0.4px">Hospitals near Dhanmondi</div>
+        <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #E3EAF6;border-radius:12px;padding:12px 14px;font-size:13.5px;color:#8B98B5;font-weight:600">
+          <svg width="14" height="14" viewBox="0 0 14 14"><circle cx="6" cy="6" r="4.4" stroke="#8B98B5" stroke-width="1.8" fill="none"></circle><path d="m9.5 9.5 3 3" stroke="#8B98B5" stroke-width="1.8" stroke-linecap="round"></path></svg>
+          Search hospitals, clinics, diagnostics…
+        </div>
+        <div style="display:flex;gap:8px">
+          <span style="font-size:12px;font-weight:800;color:#fff;background:#2E6BE6;padding:7px 13px;border-radius:99px">Open now</span>
+          <span style="font-size:12px;font-weight:700;color:#3D4E73;background:#fff;border:1px solid #E3EAF6;padding:7px 13px;border-radius:99px">Emergency unit</span>
+          <span style="font-size:12px;font-weight:700;color:#3D4E73;background:#fff;border:1px solid #E3EAF6;padding:7px 13px;border-radius:99px">Diagnostics</span>
+          <span style="font-size:12px;font-weight:700;color:#3D4E73;background:#fff;border:1px solid #E3EAF6;padding:7px 13px;border-radius:99px">Govt.</span>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:11px;margin-top:2px">
+          <div style="background:#fff;border:1.5px solid #2E6BE6;border-radius:14px;padding:16px 18px;box-shadow:0 8px 20px rgba(46,107,230,.12);display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;justify-content:space-between"><div style="font-size:15.5px;font-weight:800">Square Hospital</div><span style="font-size:11px;font-weight:800;color:#12A17C;background:#E9F7F2;padding:4px 9px;border-radius:99px">Open 24/7</span></div>
+            <div style="font-size:12.5px;color:#5B6B8C;font-weight:600">West Panthapath · <b style="color:#1E4FC0">1.2 km</b> · Emergency, ICU, Cardiology</div>
+            <div style="display:flex;gap:9px;margin-top:4px">
+              <div style="background:#2E6BE6;color:#fff;font-size:12.5px;font-weight:800;padding:8px 14px;border-radius:8px">Directions</div>
+              <div style="border:1px solid #D3E1FA;color:#1E4FC0;font-size:12.5px;font-weight:800;padding:8px 14px;border-radius:8px">Call</div>
+              <div style="border:1px solid #D3E1FA;color:#1E4FC0;font-size:12.5px;font-weight:800;padding:8px 14px;border-radius:8px">Book appointment</div>
+            </div>
+          </div>
+          <div style="background:#fff;border:1px solid #E3EAF6;border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;justify-content:space-between"><div style="font-size:15.5px;font-weight:800">Labaid Specialized Hospital</div><span style="font-size:11px;font-weight:800;color:#12A17C;background:#E9F7F2;padding:4px 9px;border-radius:99px">Open 24/7</span></div>
+            <div style="font-size:12.5px;color:#5B6B8C;font-weight:600">Dhanmondi 4 · <b style="color:#1E4FC0">1.9 km</b> · Emergency, Diagnostics, Medicine</div>
+          </div>
+          <div style="background:#fff;border:1px solid #E3EAF6;border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;justify-content:space-between"><div style="font-size:15.5px;font-weight:800">Dhaka Medical College Hospital</div><span style="font-size:11px;font-weight:800;color:#12A17C;background:#E9F7F2;padding:4px 9px;border-radius:99px">Open 24/7</span></div>
+            <div style="font-size:12.5px;color:#5B6B8C;font-weight:600">Secretariat Rd · <b style="color:#1E4FC0">4.6 km</b> · Govt. · Emergency, Burn unit</div>
+          </div>
+          <div style="background:#fff;border:1px solid #E3EAF6;border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;justify-content:space-between"><div style="font-size:15.5px;font-weight:800">Popular Diagnostic Centre</div><span style="font-size:11px;font-weight:800;color:#8A6414;background:#FBF3E4;padding:4px 9px;border-radius:99px">Closes 10 PM</span></div>
+            <div style="font-size:12.5px;color:#5B6B8C;font-weight:600">Dhanmondi 2 · <b style="color:#1E4FC0">0.8 km</b> · Lab tests, Imaging</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- map -->
+      <div style="position:relative;background:linear-gradient(180deg,#E9F0FB,#F2F6FD);border-left:1px solid #E3EAF6;overflow:hidden" data-screen-label="Hospitals map">
+        <img src="assets/bd-dotmap.png" alt="Bangladesh map" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);height:92%;opacity:.9">
+        <!-- division pins -->
+        <div style="position:absolute;left:51%;top:46%;transform:translate(-50%,-50%)">
+          <div style="width:54px;height:54px;border-radius:50%;background:rgba(46,107,230,.18);display:grid;place-items:center">
+            <div style="width:20px;height:20px;border-radius:50%;background:#2E6BE6;border:4px solid #fff;box-shadow:0 3px 10px rgba(15,30,64,.35)"></div>
+          </div>
+          <div style="position:absolute;left:50%;top:-30px;transform:translateX(-50%);background:#0F1E40;color:#fff;font-size:11.5px;font-weight:800;padding:5px 10px;border-radius:7px;white-space:nowrap">You · Dhaka</div>
+        </div>
+        <div style="position:absolute;left:79%;top:69%;transform:translate(-50%,-50%)"><div style="width:14px;height:14px;border-radius:50%;background:#5B8DEF;border:3px solid #fff;box-shadow:0 2px 6px rgba(15,30,64,.25)"></div></div>
+        <div style="position:absolute;left:33%;top:62%;transform:translate(-50%,-50%)"><div style="width:14px;height:14px;border-radius:50%;background:#5B8DEF;border:3px solid #fff;box-shadow:0 2px 6px rgba(15,30,64,.25)"></div></div>
+        <div style="position:absolute;left:15%;top:38%;transform:translate(-50%,-50%)"><div style="width:14px;height:14px;border-radius:50%;background:#5B8DEF;border:3px solid #fff;box-shadow:0 2px 6px rgba(15,30,64,.25)"></div></div>
+        <div style="position:absolute;left:80%;top:29%;transform:translate(-50%,-50%)"><div style="width:14px;height:14px;border-radius:50%;background:#5B8DEF;border:3px solid #fff;box-shadow:0 2px 6px rgba(15,30,64,.25)"></div></div>
+        <div style="position:absolute;left:28%;top:16%;transform:translate(-50%,-50%)"><div style="width:14px;height:14px;border-radius:50%;background:#5B8DEF;border:3px solid #fff;box-shadow:0 2px 6px rgba(15,30,64,.25)"></div></div>
+        <div style="position:absolute;left:50%;top:64%;transform:translate(-50%,-50%)"><div style="width:14px;height:14px;border-radius:50%;background:#5B8DEF;border:3px solid #fff;box-shadow:0 2px 6px rgba(15,30,64,.25)"></div></div>
+        <!-- selected hospital popup -->
+        <div style="position:absolute;left:24px;bottom:22px;right:24px;background:#fff;border:1px solid #E3EAF6;border-radius:14px;box-shadow:0 14px 32px rgba(15,30,64,.16);padding:14px 16px;display:flex;align-items:center;gap:13px">
+          <div style="width:40px;height:40px;border-radius:11px;background:#EAF1FE;display:grid;place-items:center"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 2v12M2 8h12" stroke="#2E6BE6" stroke-width="3.2" stroke-linecap="round"></path></svg></div>
+          <div style="flex:1"><div style="font-size:14px;font-weight:800">Square Hospital</div><div style="font-size:12px;color:#5B6B8C;font-weight:600">1.2 km · 6 min by CNG · Emergency open</div></div>
+          <div style="background:#2E6BE6;color:#fff;font-size:12.5px;font-weight:800;padding:9px 15px;border-radius:9px">Go</div>
+        </div>
+        <div style="position:absolute;right:16px;top:16px;background:rgba(255,255,255,.9);border:1px solid #E3EAF6;border-radius:9px;padding:6px 11px;font-size:10.5px;font-weight:800;color:#5B6B8C;font-family:ui-monospace,monospace">map placeholder · live tiles TBD</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 1e MOBILE HOME ============ -->
+<div class="dv-opt" id="1e">
+  <div class="dv-olabel"><a class="dv-oid" href="#1e">1e</a>Mobile home · 390</div>
+  <div class="dv-card" style="width:390px;background:#F5F8FE;color:#0F1E40;border-radius:24px" data-screen-label="Mobile home">
+    <div style="padding:22px 20px 26px;display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:30px;height:30px;border-radius:9px;background:#2E6BE6;display:grid;place-items:center"><svg width="14" height="14" viewBox="0 0 16 16"><path d="M8 2v12M2 8h12" stroke="#fff" stroke-width="3.2" stroke-linecap="round"></path></svg></div>
+          <div style="font-size:16px;font-weight:800">Shastho AI</div>
+        </div>
+        <div style="width:34px;height:34px;border-radius:50%;background:#0F1E40;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:800">TA</div>
+      </div>
+
+      <div><div style="font-size:13px;font-weight:700;color:#8B98B5">Good afternoon</div><div style="font-size:24px;font-weight:800;letter-spacing:-0.5px">How can I help, Tanvir?</div></div>
+
+      <div style="background:#fff;border:1.5px solid #C9D9F5;border-radius:16px;box-shadow:0 8px 22px rgba(15,30,64,.08);padding:15px 16px;display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:14.5px;color:#8B98B5">Ask anything, or upload…</div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="width:34px;height:34px;border-radius:10px;border:1.5px dashed #B9CCF0;display:grid;place-items:center"><svg width="13" height="13" viewBox="0 0 16 16"><path d="M8 3v10M3 8h10" stroke="#1E4FC0" stroke-width="2.4" stroke-linecap="round"></path></svg></div>
+          <div style="width:40px;height:40px;border-radius:12px;background:#2E6BE6;display:grid;place-items:center"><svg width="15" height="15" viewBox="0 0 16 16"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg></div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
+        <div style="background:#fff;border:1px solid #E3EAF6;border-radius:15px;padding:16px;display:flex;flex-direction:column;gap:9px;min-height:64px">
+          <div style="width:34px;height:34px;border-radius:10px;background:#EAF1FE;display:grid;place-items:center;font-size:11.5px;font-weight:800;color:#1E4FC0">Rx</div>
+          <div style="font-size:13.5px;font-weight:800;line-height:1.3">Upload prescription</div>
+        </div>
+        <div style="background:#fff;border:1px solid #E3EAF6;border-radius:15px;padding:16px;display:flex;flex-direction:column;gap:9px">
+          <div style="width:34px;height:34px;border-radius:10px;background:#FDEEEE;display:grid;place-items:center"><span style="width:11px;height:11px;border-radius:4px;background:#E05252"></span></div>
+          <div style="font-size:13.5px;font-weight:800;line-height:1.3">Check an injury</div>
+        </div>
+        <div style="background:#fff;border:1px solid #E3EAF6;border-radius:15px;padding:16px;display:flex;flex-direction:column;gap:9px">
+          <div style="width:34px;height:34px;border-radius:10px;background:#FBF3E4;display:grid;place-items:center"><span style="width:12px;height:12px;border-radius:50%;border:3px solid #E8A13D;box-sizing:border-box"></span></div>
+          <div style="font-size:13.5px;font-weight:800;line-height:1.3">Identify medicine</div>
+        </div>
+        <div style="background:#fff;border:1px solid #E3EAF6;border-radius:15px;padding:16px;display:flex;flex-direction:column;gap:9px">
+          <div style="width:34px;height:34px;border-radius:10px;background:#E9F7F2;display:grid;place-items:center"><span style="width:10px;height:10px;border-radius:50%;background:#12A17C"></span></div>
+          <div style="font-size:13.5px;font-weight:800;line-height:1.3">Find a hospital</div>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E3EAF6;border-radius:15px;padding:15px 16px;display:flex;align-items:center;gap:13px">
+        <div style="width:36px;height:36px;border-radius:50%;background:#EAF1FE;display:grid;place-items:center"><span style="width:10px;height:10px;border-radius:50%;background:#2E6BE6"></span></div>
+        <div style="flex:1"><div style="font-size:13.5px;font-weight:800">Amoxicillin 500 due soon</div><div style="font-size:11.5px;color:#8B98B5;font-weight:600">4:00 PM · Baba's schedule</div></div>
+        <div style="background:#2E6BE6;color:#fff;font-size:11.5px;font-weight:800;padding:8px 12px;border-radius:8px">Taken</div>
+      </div>
+
+      <div style="background:#FDEEEE;border:1px solid #F5CFCF;border-radius:13px;padding:12px 15px;display:flex;align-items:center;gap:10px">
+        <span style="width:9px;height:9px;border-radius:50%;background:#E05252"></span>
+        <div style="font-size:12.5px;font-weight:800;color:#A33B3B">Emergency? Call 999 now</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 1f MOBILE CHAT ============ -->
+<div class="dv-opt" id="1f">
+  <div class="dv-olabel"><a class="dv-oid" href="#1f">1f</a>Mobile chat · medicine identification · 390</div>
+  <div class="dv-card" style="width:390px;height:760px;background:#F5F8FE;color:#0F1E40;border-radius:24px;display:flex;flex-direction:column" data-screen-label="Mobile chat">
+    <div style="display:flex;align-items:center;gap:11px;padding:16px 18px;border-bottom:1px solid #E3EAF6;background:rgba(255,255,255,.75)">
+      <svg width="16" height="16" viewBox="0 0 16 16"><path d="M10 3 5 8l5 5" stroke="#0F1E40" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>
+      <div style="width:28px;height:28px;border-radius:8px;background:#2E6BE6;display:grid;place-items:center"><svg width="12" height="12" viewBox="0 0 16 16"><path d="M8 2v12M2 8h12" stroke="#fff" stroke-width="3.2" stroke-linecap="round"></path></svg></div>
+      <div><div style="font-size:14px;font-weight:800">Shastho AI</div><div style="font-size:10.5px;color:#12A17C;font-weight:700">● Online</div></div>
+    </div>
+
+    <div style="flex:1;padding:18px 16px;display:flex;flex-direction:column;gap:14px;overflow:hidden">
+      <div style="align-self:flex-end;display:flex;flex-direction:column;gap:7px;align-items:flex-end;max-width:280px">
+        <div style="background:#2E6BE6;color:#fff;border-radius:15px 15px 4px 15px;padding:11px 14px;font-size:13.5px;line-height:1.5;font-weight:500">Found this strip in the cabinet — what is it for?</div>
+        <div style="width:150px;height:96px;border-radius:11px;background:repeating-linear-gradient(45deg,#EAF1FE,#EAF1FE 7px,#F5F8FE 7px,#F5F8FE 14px);border:1px solid #D3E1FA;display:grid;place-items:center;font-family:ui-monospace,monospace;font-size:9px;color:#5B6B8C">medicine strip</div>
+      </div>
+
+      <div style="align-self:flex-start;max-width:320px;display:flex;flex-direction:column;gap:9px">
+        <div style="background:#fff;border:1px solid #E3EAF6;border-radius:4px 15px 15px 15px;padding:12px 15px;font-size:13.5px;line-height:1.55;color:#26355A">That's <b>Monas 10 (Montelukast)</b> — used for asthma and allergic rhinitis. Here's what you should know:</div>
+        <div style="background:#fff;border:1px solid #E3EAF6;border-radius:15px;overflow:hidden;box-shadow:0 5px 14px rgba(15,30,64,.07)">
+          <div style="display:flex;align-items:center;gap:8px;padding:11px 15px;background:#F8FAFE;border-bottom:1px solid #E3EAF6;font-size:12px;font-weight:800"><span style="width:11px;height:11px;border-radius:50%;border:3px solid #E8A13D;box-sizing:border-box"></span>Medicine identified · 96% match</div>
+          <div style="padding:12px 15px;display:flex;flex-direction:column;gap:9px;font-size:12.5px;font-weight:600;color:#26355A;line-height:1.5">
+            <div style="display:flex;justify-content:space-between;gap:12px"><span style="color:#8B98B5">Generic</span><span style="font-weight:800">Montelukast 10mg</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px"><span style="color:#8B98B5">Typical dose</span><span style="font-weight:800">1 tablet at night</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px"><span style="color:#8B98B5">Prescription</span><span style="font-weight:800;color:#A33B3B">Required</span></div>
+          </div>
+          <div style="margin:0 15px 13px;background:#FBF3E4;border:1px solid #F2DFB6;border-radius:9px;padding:9px 12px;font-size:11.5px;line-height:1.5;color:#8A6414;font-weight:600">Don't take it without a doctor's advice — want me to check if it was prescribed to anyone in your family records?</div>
+        </div>
+        <div style="display:flex;gap:7px">
+          <span style="font-size:11.5px;font-weight:800;color:#1E4FC0;background:#EAF1FE;border:1px solid #D3E1FA;padding:7px 12px;border-radius:99px">Yes, check records</span>
+          <span style="font-size:11.5px;font-weight:800;color:#1E4FC0;background:#fff;border:1px solid #D3E1FA;padding:7px 12px;border-radius:99px">Side effects?</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:12px 14px 18px">
+      <div style="background:#fff;border:1.5px solid #C9D9F5;border-radius:15px;padding:11px 13px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 18px rgba(15,30,64,.08)">
+        <div style="width:32px;height:32px;border-radius:9px;border:1.5px dashed #B9CCF0;display:grid;place-items:center;flex:none"><svg width="12" height="12" viewBox="0 0 16 16"><path d="M8 3v10M3 8h10" stroke="#1E4FC0" stroke-width="2.4" stroke-linecap="round"></path></svg></div>
+        <div style="flex:1;font-size:13.5px;color:#8B98B5">Message…</div>
+        <div style="width:38px;height:38px;border-radius:11px;background:#2E6BE6;display:grid;place-items:center;flex:none"><svg width="14" height="14" viewBox="0 0 16 16"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "make the chat screen dark mode" · "riff on the hospital map layout" · "turn <a class="dv-oid" href="#1b">1b</a> into a clickable prototype"</p>
+</section>
+
+</x-dc>
+</body>
+</html>

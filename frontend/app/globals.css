@@ -1,54 +1,150 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+@import "../node_modules/tailwindcss/index.css";
+@import "../node_modules/tw-animate-css/dist/tw-animate.css";
+@import "./shadcn-tailwind.css";
 
 @layer base {
+  :root {
+    color-scheme: light;
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #EFF4FF;
+    color: #0F1E40;
+    --background: 255 255 255;
+    --foreground: 15 30 64;
+    --card: 255 255 255;
+    --card-foreground: 15 30 64;
+    --popover: 255 255 255;
+    --popover-foreground: 15 30 64;
+    --primary: 14 184 166;
+    --primary-foreground: 255 255 255;
+    --secondary: 245 248 254;
+    --secondary-foreground: 15 30 64;
+    --muted: 245 248 254;
+    --muted-foreground: 139 152 181;
+    --accent: 245 248 254;
+    --accent-foreground: 15 30 64;
+    --destructive: 224 82 82;
+    --destructive-foreground: 255 255 255;
+    --border: 229 232 239;
+    --input: 229 232 239;
+    --ring: 15 30 64;
+    --radius: 0.625rem;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
   html {
+    scroll-behavior: smooth;
+    font-family: var(--font-inter), 'Inter', system-ui, sans-serif;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: #EFF4FF;
+    color: #0F1E40;
+    font-family: inherit;
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  body {
-    @apply bg-ink-50 min-h-screen text-ink-800 font-sans;
-    background-image:
-      radial-gradient(ellipse 80% 50% at 50% -10%, rgb(20 184 166 / 0.07), transparent),
-      linear-gradient(to right, rgb(10 12 20 / 0.025) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(10 12 20 / 0.025) 1px, transparent 1px);
-    background-size: auto, 40px 40px, 40px 40px;
-  }
-  h1, h2, h3, h4 {
-    @apply font-display tracking-tight;
-  }
-}
 
-@layer components {
-  .btn-primary {
-    @apply bg-ink-900 hover:bg-ink-950 text-white font-medium px-5 py-2.5 rounded-xl transition-all shadow-soft hover:shadow-lift active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
-  }
-  .btn-secondary {
-    @apply bg-white hover:bg-ink-50 text-ink-700 border border-ink-200 font-medium px-5 py-2.5 rounded-xl transition-all shadow-soft active:scale-[0.98];
-  }
-  .btn-accent {
-    @apply bg-brand-600 hover:bg-brand-700 text-white font-medium px-5 py-2.5 rounded-xl transition-all shadow-glow active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
-  }
-  .card {
-    @apply bg-white/80 backdrop-blur-sm rounded-2xl shadow-card border border-ink-100 p-6;
-  }
-  .card-flat {
-    @apply bg-white rounded-2xl border border-ink-100 p-6;
-  }
-  .input {
-    @apply w-full bg-white border border-ink-200 rounded-xl px-4 py-2.5 text-ink-800 placeholder:text-ink-400 transition focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-400;
-  }
-  .label {
-    @apply block text-sm font-medium text-ink-600 mb-1.5;
-  }
-  .eyebrow {
-    @apply inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-brand-700;
+  ::selection {
+    background-color: rgba(46, 107, 230, 0.3);
+    color: #0F1E40;
   }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes typing-dot {
+  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
+.typing-dot { animation: typing-dot 1.4s infinite; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up { animation: fade-in-up 0.4s ease-out forwards; }
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(46, 107, 230, 0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(46, 107, 230, 0); }
+}
+.animate-pulse-glow { animation: pulse-glow 2s infinite; }
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, #EAF1FE 25%, #F5F8FE 50%, #EAF1FE 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@layer utilities {
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Typing indicator animation */
+@keyframes typing-dot {
+  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
+.typing-dot {
+  animation: typing-dot 1.4s infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+/* Fade in up */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.4s ease-out forwards;
+}
+
+/* Pulse glow */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(46, 107, 230, 0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(46, 107, 230, 0); }
+}
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Gradient shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, #EAF1FE 25%, #F5F8FE 50%, #EAF1FE 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
 }

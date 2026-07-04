@@ -1,0 +1,9 @@
+{
+  "name": "ai-project-root",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "cd frontend && npm run dev",
+    "frontend": "cd frontend && npm run dev"
+  }
+}

@@ -1,24 +1,21 @@
-import type { Metadata } from 'next';
-import { Inter, Lexend } from 'next/font/google';
 import './globals.css';
-import Nav from '@/components/Nav';
-import Disclaimer from '@/components/Disclaimer';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import { cn } from '@/lib/utils';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const lexend = Lexend({ subsets: ['latin'], variable: '--font-display', weight: ['500', '600', '700'] });
 
 export const metadata: Metadata = {
-  title: 'LifeGuard Nexus — CJP Healthtech',
-  description: "AI-assisted health information and triage for women in Bangladesh",
+  title: 'LifeGuard NeXus — AI Health Agent',
+  description: 'Your AI-powered medical health agent. Upload prescriptions, injury photos, lab reports, medicine images, and find nearby hospitals.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${lexend.variable}`}>
+    <html lang="en" className={cn('font-sans', inter.variable)}>
       <body>
-        <Disclaimer />
-        <Nav />
-        <main className="max-w-6xl mx-auto px-4 py-8 md:py-12">{children}</main>
+        <TooltipProvider>{children}</TooltipProvider>
       </body>
     </html>
   );
