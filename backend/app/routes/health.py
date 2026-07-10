@@ -26,9 +26,13 @@ async def health():
     except Exception:
         pass
 
+    active_model = (
+        f"nvidia-nim: {settings.NIM_MODEL} (+{settings.NIM_VISION_MODEL} vision)"
+        if settings.NVIDIA_API_KEY else settings.CLAUDE_MODEL
+    )
     return HealthCheck(
         status="ok",
-        model=settings.CLAUDE_MODEL,
+        model=active_model,
         rag_documents=rag_count,
         diseases_loaded=diseases_count,
         embedding_model=settings.EMBEDDING_MODEL

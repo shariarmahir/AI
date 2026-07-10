@@ -1,6 +1,7 @@
 """Retrieval: semantic search over the ingested medical knowledge."""
 from .chroma_client import get_chroma
 from .embeddings import embed_query
+from .banglish import normalize_query
 
 
 def retrieve(query: str, n_results: int = 5, filter_type: str | None = None, filter_category: str | None = None) -> list[dict]:
@@ -16,7 +17,9 @@ def retrieve(query: str, n_results: int = 5, filter_type: str | None = None, fil
         List of {document, metadata, distance, similarity} dicts
     """
     chroma = get_chroma()
-    query_embedding = embed_query(query)
+    # Expand Banglish phrases to Bangla + English so transliterated queries
+    # ("pete betha") retrieve the same docs as Bangla/English ones.
+    query_embedding = embed_query(normalize_query(query))
 
     where = {}
     if filter_type and filter_category:

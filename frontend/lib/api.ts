@@ -32,7 +32,7 @@ export interface ChatMessage {
 export interface ChatResponse {
   reply: string;
   confidence: number | 'high' | 'medium' | 'low';
-  sources?: { type: string; title: string }[];
+  sources?: { disease_id?: string; disease_name?: string; similarity?: number; type?: string }[];
   flagged_emergency: boolean;
   emergency?: boolean;
   disclaimer: string;

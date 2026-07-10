@@ -8,13 +8,19 @@ class Settings(BaseSettings):
     ANTHROPIC_API_KEY: str = ""
     OPENROUTER_API_KEY: str = ""
     OPENAI_API_KEY: str = ""
+    NVIDIA_API_KEY: str = ""
     GOOGLE_MAPS_API_KEY: str = ""
     GITHUB_PAT: str = ""
     GH_TOKEN: str = ""
 
-    # Model
+    # Model (OpenRouter fallback)
     CLAUDE_MODEL: str = "anthropic/claude-sonnet-4-5"
     CLAUDE_MAX_TOKENS: int = 2048
+
+    # NVIDIA NIM (preferred provider when NVIDIA_API_KEY is set)
+    NIM_BASE_URL: str = "https://integrate.api.nvidia.com/v1"
+    NIM_MODEL: str = "mistralai/mistral-small-4-119b-2603"
+    NIM_VISION_MODEL: str = "meta/llama-3.2-90b-vision-instruct"
 
     # Embeddings
     EMBEDDING_MODEL: str = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"

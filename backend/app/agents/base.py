@@ -5,28 +5,38 @@ from ..config import get_settings
 
 
 @lru_cache
-def get_openrouter_client() -> OpenAI:
+def get_llm_client() -> OpenAI:
+    """OpenAI-compatible client. Prefers NVIDIA NIM, falls back to OpenRouter."""
     settings = get_settings()
-    api_key = settings.OPENROUTER_API_KEY
-    if not api_key:
-        raise ValueError("OPENROUTER_API_KEY not set in environment")
-    return OpenAI(
-        base_url="https://openrouter.ai/api/v1",
-        api_key=api_key,
-    )
+    if settings.NVIDIA_API_KEY:
+        return OpenAI(
+            base_url=settings.NIM_BASE_URL,
+            api_key=settings.NVIDIA_API_KEY,
+        )
+    if settings.OPENROUTER_API_KEY:
+        return OpenAI(
+            base_url="https://openrouter.ai/api/v1",
+            api_key=settings.OPENROUTER_API_KEY,
+        )
+    raise ValueError("No LLM API key set: provide NVIDIA_API_KEY or OPENROUTER_API_KEY")
 
 
 class BaseAgent:
-    """Base class for all agents. Provides model access via OpenRouter."""
+    """Base class for all agents. Provides model access via NVIDIA NIM or OpenRouter."""
 
     def __init__(self):
         self.settings = get_settings()
-        self.client = get_openrouter_client()
-        self.model = self.settings.CLAUDE_MODEL
+        self.client = get_llm_client()
+        if self.settings.NVIDIA_API_KEY:
+            self.model = self.settings.NIM_MODEL
+            self.vision_model = self.settings.NIM_VISION_MODEL
+        else:
+            self.model = self.settings.CLAUDE_MODEL
+            self.vision_model = self.settings.CLAUDE_MODEL
         self.max_tokens = self.settings.CLAUDE_MAX_TOKENS
 
     def call_claude(self, system: str, messages: list[dict], max_tokens: int | None = None) -> str:
-        """Call Claude via OpenRouter with the given system prompt and message history."""
+        """Call the text model with the given system prompt and message history."""
         all_messages = [{"role": "system", "content": system}] + messages
         response = self.client.chat.completions.create(
             model=self.model,
@@ -36,9 +46,9 @@ class BaseAgent:
         return response.choices[0].message.content or ""
 
     def call_claude_vision(self, system: str, image_base64: str, media_type: str, prompt: str, max_tokens: int | None = None) -> str:
-        """Call Claude with an image attachment via OpenRouter."""
+        """Call the vision model with an image attachment."""
         response = self.client.chat.completions.create(
-            model=self.model,
+            model=self.vision_model,
             max_tokens=max_tokens or self.max_tokens,
             messages=[
                 {"role": "system", "content": system},

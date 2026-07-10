@@ -48,7 +48,7 @@ class TriageAgent(BaseAgent):
         raw_response = self.call_claude(
             system=TRIAGE_SYSTEM,
             messages=[{"role": "user", "content": user_message}],
-            max_tokens=1200
+            max_tokens=min(1200, self.max_tokens)
         )
 
         parsed = self._extract_json(raw_response)

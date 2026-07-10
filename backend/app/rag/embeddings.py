@@ -12,9 +12,15 @@ def get_embedding_model() -> SentenceTransformer:
 
 
 def embed_texts(texts: list[str]) -> list[list[float]]:
-    """Generate embeddings for a list of texts. Returns list of float vectors."""
+    """Generate embeddings for a list of texts. Returns list of float vectors.
+
+    Vectors are L2-normalized so that ChromaDB's cosine space yields distances
+    in [0, 2] and similarity = 1 - distance is meaningful.
+    """
     model = get_embedding_model()
-    embeddings = model.encode(texts, convert_to_numpy=True, show_progress_bar=False)
+    embeddings = model.encode(
+        texts, convert_to_numpy=True, show_progress_bar=False, normalize_embeddings=True
+    )
     return embeddings.tolist()
 
 

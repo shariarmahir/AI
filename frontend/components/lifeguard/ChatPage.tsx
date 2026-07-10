@@ -24,6 +24,15 @@ import {
   Menu,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import {
+  chat as apiChat,
+  analyzeImage,
+  findHospitals,
+  type ChatMessage,
+  type ChatResponse,
+  type ImageAnalysisResponse,
+  type Hospital as ApiHospital,
+} from '@/lib/api';
 
 type UploadCategory = 'prescription' | 'injury' | 'report' | 'medicine' | 'hospital' | null;
 
@@ -31,6 +40,7 @@ interface UploadedFile {
   id: string;
   name: string;
   category: UploadCategory;
+  file: File;
   preview?: string;
   size: string;
 }
@@ -95,95 +105,76 @@ const colorTokens: Record<string, { bg: string; border: string; text: string; se
   red:    { bg: 'bg-[#FDEEEE]',   border: 'border-[#F5CFCF]',  text: 'text-[#E05252]',  selBg: 'bg-[#E05252]',  selBorder: 'border-[#E05252]',  selText: 'text-white' },
 };
 
-const sampleResponses: Record<string, string> = {
-  prescription: `**Prescription Analysis Complete**
-
-I've analyzed your prescription. Here's a breakdown:
-
-**Medications Identified:**
-- **Amoxicillin 500mg** — Antibiotic for bacterial infections. Take 3× daily with food for 7 days.
-- **Ibuprofen 400mg** — Anti-inflammatory pain relief. Take every 6–8 hrs as needed. Do not exceed 1200mg/day.
-- **ORS Sachets** — Oral rehydration. Mix 1 sachet in 200ml water after each loose stool.
-
-**Important Interactions:** No major drug interactions detected between these medications.
-
-**Warnings:** Avoid alcohol while on Amoxicillin. If you're allergic to penicillin, consult your doctor immediately.
-
-**Next Refill:** Based on dosage, you'll need a refill in approximately 7 days.`,
-
-  injury: `**Injury Assessment Analysis**
-
-Based on the image provided, here is my assessment:
-
-**Observations:**
-- Visible soft tissue abrasion on the affected area
-- Mild redness and swelling consistent with a Grade I injury
-- No apparent bone deformity detected
-
-**Severity:** Mild to Moderate (Grade I–II)
-
-**Immediate First Aid:**
-1. Clean the wound with antiseptic solution
-2. Apply a cold compress for 15–20 minutes
-3. Elevate the affected limb if possible
-4. Apply a sterile bandage
-
-**Recommendation:** Monitor for 24–48 hours. Seek emergency care if swelling worsens, severe pain develops, or signs of infection appear (fever, increased redness, discharge).`,
-
-  report: `**Lab Report Analysis**
-
-Your lab results have been reviewed. Here's a plain-language summary:
-
-**Key Findings:**
-| Test | Your Value | Normal Range | Status |
-|------|-----------|--------------|--------|
-| Hemoglobin | 12.8 g/dL | 13.5–17.5 | ⚠️ Slightly Low |
-| Blood Sugar | 95 mg/dL | 70–100 | ✅ Normal |
-| Creatinine | 0.9 mg/dL | 0.6–1.2 | ✅ Normal |
-| WBC | 8,200/μL | 4,000–11,000 | ✅ Normal |
-
-**Interpretation:** Your hemoglobin is slightly below the normal range, which may indicate mild anemia. Consider increasing iron-rich foods (spinach, red meat, lentils) and Vitamin C.
-
-**Doctor Follow-up:** Recommended in 4–6 weeks for repeat CBC.`,
-
-  medicine: `**Medicine Identification**
-
-I've identified the medication from your image:
-
-**Drug Name:** Metformin Hydrochloride 500mg
-**Brand Name:** Glucophage / Obimet
-**Drug Class:** Biguanide (Antidiabetic)
-
-**What it's for:** Management of Type 2 Diabetes Mellitus.
-
-**How to take:** With meals, typically 1–2 tablets twice daily.
-
-**Common Side Effects:**
-- Nausea (usually temporary)
-- Stomach upset or diarrhea (improves over time)
-- Loss of appetite
-
-**Serious Warnings:** Do not take if you have kidney disease, liver disease, or are scheduled for contrast imaging. Report unusual fatigue, muscle pain, or difficulty breathing immediately.
-
-**Storage:** Store below 30°C, away from moisture and sunlight.`,
-
-  hospital: `**Nearby Hospital Search**
-
-Based on your location, here are the top-rated medical facilities near you:
-
-**Emergency Hospitals:**
-1. 🏥 **City Medical Center** — 1.2 km | Open 24/7 | ⭐ 4.8 | (Emergency, ICU, Surgery)
-2. 🏥 **Apollo Hospitals** — 2.4 km | Open 24/7 | ⭐ 4.9 | (Multi-specialty)
-3. 🏥 **Fortis Healthcare** — 3.1 km | Open 24/7 | ⭐ 4.7 | (Cardiology, Neurology)
-
-**Clinics & Urgent Care:**
-4. 🏪 **QuickCare Clinic** — 0.8 km | Open 8AM–10PM | ⭐ 4.6 | Walk-in available
-5. 🏪 **MedPlus Diagnostic** — 1.5 km | Open 7AM–9PM | ⭐ 4.5 | Lab + Imaging
-
-**Recommendation:** For non-emergency needs, QuickCare Clinic is closest and has no wait time currently.
-
-Switch to the **Hospitals tab** for a full interactive map.`,
+// Map upload categories to the backend's accepted image_type values
+const categoryToImageType: Record<string, 'prescription' | 'injury' | 'report' | 'auto'> = {
+  prescription: 'prescription',
+  injury: 'injury',
+  report: 'report',
+  medicine: 'auto',
 };
+
+const DHAKA = { lat: 23.8103, lng: 90.4125 };
+
+function getPosition(): Promise<{ lat: number; lng: number }> {
+  return new Promise(resolve => {
+    if (!navigator.geolocation) return resolve(DHAKA);
+    navigator.geolocation.getCurrentPosition(
+      pos => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+      () => resolve(DHAKA),
+      { timeout: 8000 }
+    );
+  });
+}
+
+function formatChatResponse(res: ChatResponse): string {
+  const parts: string[] = [];
+  if (res.flagged_emergency || res.emergency) {
+    parts.push('**🚨 This may be an emergency — call 999 or go to the nearest hospital now.**\n');
+  }
+  parts.push(res.reply);
+  const sourceNames = Array.from(
+    new Set((res.sources ?? []).map(s => s.disease_name).filter(Boolean))
+  );
+  if (sourceNames.length > 0) {
+    parts.push('\n**Related conditions in knowledge base:**');
+    sourceNames.forEach(name => parts.push(`- ${name}`));
+  }
+  if (res.disclaimer) parts.push(`\n_${res.disclaimer}_`);
+  return parts.join('\n');
+}
+
+function formatImageResponse(res: ImageAnalysisResponse, label: string): string {
+  const parts: string[] = [
+    `**${label} Analysis Complete**`,
+    '',
+    res.analysis,
+    '',
+    `**Detected Type:** ${res.detected_type}`,
+    `**Urgency:** ${res.urgency.toUpperCase()}`,
+    `**Suggested Specialty:** ${res.suggested_specialty}`,
+    `**Confidence:** ${res.confidence}`,
+  ];
+  if (res.urgency === 'emergency' || res.urgency === 'high') {
+    parts.push('', '**🚨 Please seek medical care urgently. Call 999 if this is an emergency.**');
+  }
+  if (res.disclaimer) parts.push('', `_${res.disclaimer}_`);
+  return parts.join('\n');
+}
+
+function formatHospitalsResponse(hospitals: ApiHospital[]): string {
+  if (hospitals.length === 0) {
+    return '**Nearby Hospital Search**\n\nNo hospitals were found near your location. Try the **Hospitals tab** to search a wider area.';
+  }
+  const parts: string[] = ['**Nearby Hospital Search**', '', 'Top-rated medical facilities near you:', ''];
+  hospitals.slice(0, 6).forEach((h, i) => {
+    const rating = h.rating ? `⭐ ${h.rating} (${h.total_ratings})` : 'No ratings';
+    const open = h.open_now === true ? 'Open now' : h.open_now === false ? 'Closed now' : 'Hours unknown';
+    parts.push(`${i + 1}. **${h.name}** — ${rating} | ${open}`);
+    parts.push(`- ${h.address}`);
+  });
+  parts.push('', 'Switch to the **Hospitals tab** for full details and directions.');
+  return parts.join('\n');
+}
 
 const initialMessages: Message[] = [
   {
@@ -232,6 +223,7 @@ export default function ChatPage({ setSidebarOpen }: ChatPageProps) {
           id: Math.random().toString(36).slice(2),
           name: file.name,
           category: selectedCategory,
+          file,
           preview: file.type.startsWith('image/') ? ev.target?.result as string : undefined,
           size: file.size > 1024 * 1024
             ? `${(file.size / 1024 / 1024).toFixed(1)} MB`
@@ -248,27 +240,23 @@ export default function ChatPage({ setSidebarOpen }: ChatPageProps) {
     setPendingFiles(prev => prev.filter(f => f.id !== id));
   };
 
-  const simulateTyping = useCallback((text: string, msgId: string) => {
-    setIsTyping(true);
-    setTimeout(() => {
-      setIsTyping(false);
-      setMessages(prev => [
-        ...prev,
-        {
-          id: msgId,
-          role: 'assistant',
-          content: text,
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          status: 'done',
-        },
-      ]);
-      setTimeout(scrollToBottom, 100);
-    }, 1800);
+  const pushAssistant = useCallback((text: string) => {
+    setMessages(prev => [
+      ...prev,
+      {
+        id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+        role: 'assistant',
+        content: text,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        status: 'done',
+      },
+    ]);
+    setTimeout(scrollToBottom, 100);
   }, []);
 
-  const handleSend = useCallback(() => {
+  const handleSend = useCallback(async () => {
     const text = input.trim();
-    if (!text && pendingFiles.length === 0) return;
+    if ((!text && pendingFiles.length === 0) || isTyping) return;
 
     const userMsg: Message = {
       id: Date.now().toString(),
@@ -278,16 +266,48 @@ export default function ChatPage({ setSidebarOpen }: ChatPageProps) {
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
 
+    // History for the backend: previous turns, excluding the static greeting
+    const history: ChatMessage[] = messages
+      .filter(m => m.id !== '0')
+      .map(m => ({ role: m.role, content: m.content }));
+
+    const files = [...pendingFiles];
+    const cat = files[0]?.category || selectedCategory;
+
     setMessages(prev => [...prev, userMsg]);
     setInput('');
     setPendingFiles([]);
+    setSelectedCategory(null);
     setShowCategories(false);
     setTimeout(scrollToBottom, 100);
+    setIsTyping(true);
 
-    const cat = pendingFiles[0]?.category || selectedCategory;
-    const responseKey = cat && sampleResponses[cat] ? cat : 'prescription';
-    simulateTyping(sampleResponses[responseKey], (Date.now() + 1).toString());
-  }, [input, pendingFiles, selectedCategory, simulateTyping]);
+    try {
+      if (files.length > 0) {
+        for (const f of files) {
+          const imageType = categoryToImageType[f.category ?? ''] || 'auto';
+          const context = f.category === 'medicine'
+            ? `Identify this medicine, explain its use, dosage and side effects, and check for signs it may be counterfeit. ${text}`.trim()
+            : text;
+          const res = await analyzeImage(f.file, imageType, context);
+          const label = categories.find(c => c.id === f.category)?.label || 'Image';
+          pushAssistant(formatImageResponse(res, label));
+        }
+      } else if (cat === 'hospital') {
+        const pos = await getPosition();
+        const hospitals = await findHospitals(pos.lat, pos.lng);
+        pushAssistant(formatHospitalsResponse(hospitals));
+      } else {
+        const res = await apiChat(text, history);
+        pushAssistant(formatChatResponse(res));
+      }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Something went wrong.';
+      pushAssistant(`**Connection Error**\n\n${msg}\n\nPlease check that the server is reachable and try again.`);
+    } finally {
+      setIsTyping(false);
+    }
+  }, [input, pendingFiles, selectedCategory, messages, isTyping, pushAssistant]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -310,8 +330,14 @@ export default function ChatPage({ setSidebarOpen }: ChatPageProps) {
     return text
       .split('\n')
       .map((line, i) => {
+        if (/^#{1,4}\s/.test(line)) {
+          return <p key={i} className="font-bold text-[#0F1E40] mt-3 mb-1">{line.replace(/^#{1,4}\s/, '')}</p>;
+        }
         if (line.startsWith('**') && line.endsWith('**') && line.length > 4) {
           return <p key={i} className="font-bold text-[#0F1E40] mt-3 mb-1">{line.replace(/\*\*/g, '')}</p>;
+        }
+        if (line.startsWith('_') && line.endsWith('_') && line.length > 2) {
+          return <p key={i} className="text-xs italic text-[#8B98B5] mt-2">{line.slice(1, -1)}</p>;
         }
         if (line.startsWith('- ')) {
           return (

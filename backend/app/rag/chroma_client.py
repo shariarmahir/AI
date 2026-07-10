@@ -30,7 +30,10 @@ class ChromaClient:
         self.collection = self.client.get_or_create_collection(
             name=settings.COLLECTION_NAME,
             embedding_function=_NoOpEmbeddingFunction(),
-            metadata={"description": "CJP medical knowledge base"}
+            # Cosine space so distances fall in [0, 2] and similarity = 1 - distance
+            # is meaningful. Default (L2) produced large distances that clamped
+            # similarity to 0. Requires a reset when the space changes.
+            metadata={"description": "CJP medical knowledge base", "hnsw:space": "cosine"}
         )
 
     def count(self) -> int:

@@ -74,7 +74,7 @@ class ImageAnalyzerAgent(BaseAgent):
             image_base64=image_base64,
             media_type=media_type,
             prompt=prompt,
-            max_tokens=1800
+            max_tokens=min(1800, self.max_tokens)
         )
 
         # Optional: match analysis to disease KB if it sounds like a condition

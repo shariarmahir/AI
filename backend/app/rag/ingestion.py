@@ -7,7 +7,11 @@ from .embeddings import embed_texts
 
 
 def _format_disease_document(d: dict) -> str:
-    """Build a rich text document from a disease entry for embedding."""
+    """Build a rich text document from a disease entry for embedding.
+
+    Includes optional fields (regions, golden_hour, banglish_terms) so that
+    area-wise, time-critical, and Banglish queries all retrieve this doc.
+    """
     parts = [
         f"Disease: {d['name_en']} ({d['name_bn']})",
         f"Category: {d['category']}",
@@ -22,6 +26,12 @@ def _format_disease_document(d: dict) -> str:
         f"Prevention: {', '.join(d['prevention'])}",
         f"Bangladesh context: {d['bd_context']}",
     ]
+    if d.get("regions"):
+        parts.append(f"Affected regions in Bangladesh: {', '.join(d['regions'])}")
+    if d.get("golden_hour"):
+        parts.append(f"Golden hour / time-critical action: {d['golden_hour']}")
+    if d.get("banglish_terms"):
+        parts.append(f"Common patient terms (Banglish): {', '.join(d['banglish_terms'])}")
     return "\n".join(parts)
 
 
@@ -40,7 +50,9 @@ def ingest_all(reset: bool = False) -> dict:
     if chroma.count() > 0 and not reset:
         return {"status": "already_ingested", "documents": chroma.count()}
 
-    # Load data
+    # Load data. diseases.json is the single merged source of truth (base +
+    # BD-specific extras merged in by data/merge_diseases.py), and qa_pairs.json
+    # is regenerated from every disease's embedded Q&A list.
     diseases = json.loads(Path(settings.DISEASES_DATA_PATH).read_text(encoding='utf-8'))
     qa_pairs = json.loads(Path(settings.QA_DATA_PATH).read_text(encoding='utf-8'))
 
@@ -55,7 +67,9 @@ def ingest_all(reset: bool = False) -> dict:
             "name_bn": d["name_bn"],
             "category": d["category"],
             "specialty": d["specialty"],
-            "prevalence_bd": d.get("prevalence_bd", "unknown")
+            "prevalence_bd": d.get("prevalence_bd", "unknown"),
+            "regions": ", ".join(d.get("regions", [])) or "nationwide",
+            "has_golden_hour": bool(d.get("golden_hour")),
         }
         for d in diseases
     ]
