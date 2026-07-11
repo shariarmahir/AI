@@ -24,7 +24,7 @@ services:
       - key: NIM_MODEL
         value: mistralai/mistral-small-4-119b-2603
       - key: NIM_VISION_MODEL
-        value: meta/llama-3.2-90b-vision-instruct
+        value: mistralai/mistral-small-4-119b-2603
       - key: GOOGLE_MAPS_API_KEY
         sync: false
 # NOTE: Render free tier has no persistent disk. The backend re-ingests

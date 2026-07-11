@@ -47,6 +47,14 @@ class HospitalSuggestion(BaseModel):
     maps_url: str
     distance_meters: Optional[int] = None
 
+    # Populated by the local dataset fallback. Google Places does not return
+    # these, so they keep their defaults on the live path.
+    source: Literal["google", "local"] = "google"
+    phone: Optional[str] = None
+    emergency_24_7: Optional[bool] = None
+    has_ambulance: Optional[bool] = None
+    specialties: list[str] = []
+
 
 class TriageResponse(BaseModel):
     specialty: str
@@ -69,7 +77,9 @@ class ImageAnalysisResponse(BaseModel):
     analysis: str
     detected_type: str
     suggested_specialty: Optional[str] = None
-    urgency: Literal["low", "medium", "high", "emergency"] = "low"
+    # "unknown" is used when the vision model could not read the image, so a
+    # refusal is never surfaced to the user as a confident emergency.
+    urgency: Literal["low", "medium", "high", "emergency", "unknown"] = "low"
     confidence: Literal["high", "medium", "low"] = "high"
     disclaimer: str
 

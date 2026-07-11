@@ -203,7 +203,12 @@ export default function HospitalsPage() {
           <div className="space-y-4">
             {filtered.map((hospital, idx) => {
               const c = colorMap[cardColors[idx % cardColors.length]];
-              const distance = haversineKm(coords, hospital.location);
+              // The backend measures against the coords it actually searched, which
+              // can drift from `coords` if the user relocates mid-request. Trust it.
+              const distance =
+                hospital.distance_meters != null
+                  ? hospital.distance_meters / 1000
+                  : haversineKm(coords, hospital.location);
               return (
                 <div
                   key={hospital.place_id}
@@ -252,6 +257,15 @@ export default function HospitalsPage() {
 
                   {/* Action bar */}
                   <div className={`border-t ${c.border} ${c.light} px-5 py-3 flex items-center justify-end gap-2`}>
+                    {hospital.phone && (
+                      <a
+                        href={`tel:${hospital.phone.replace(/\s/g, '')}`}
+                        className="flex items-center gap-1.5 mr-auto bg-white border border-[#E3EAF6] text-[#5B6B8C] hover:text-[#12A17C] hover:border-[#CFEEE1] text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
+                      >
+                        <Phone size={11} />
+                        {hospital.phone}
+                      </a>
+                    )}
                     <a
                       href={hospital.maps_url}
                       target="_blank"

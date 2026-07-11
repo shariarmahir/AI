@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import {
   Send,
   Paperclip,
@@ -33,6 +33,7 @@ import {
   type ImageAnalysisResponse,
   type Hospital as ApiHospital,
 } from '@/lib/api';
+import { loadSession, saveSession } from '@/lib/chatHistory';
 
 type UploadCategory = 'prescription' | 'injury' | 'report' | 'medicine' | 'hospital' | null;
 
@@ -40,7 +41,8 @@ interface UploadedFile {
   id: string;
   name: string;
   category: UploadCategory;
-  file: File;
+  // Absent on messages restored from history — File objects can't be serialized.
+  file?: File;
   preview?: string;
   size: string;
 }
@@ -106,11 +108,11 @@ const colorTokens: Record<string, { bg: string; border: string; text: string; se
 };
 
 // Map upload categories to the backend's accepted image_type values
-const categoryToImageType: Record<string, 'prescription' | 'injury' | 'report' | 'auto'> = {
+const categoryToImageType: Record<string, 'prescription' | 'injury' | 'report' | 'medicine' | 'auto'> = {
   prescription: 'prescription',
   injury: 'injury',
   report: 'report',
-  medicine: 'auto',
+  medicine: 'medicine',
 };
 
 const DHAKA = { lat: 23.8103, lng: 90.4125 };
@@ -197,10 +199,18 @@ Choose a category below and upload your file, or simply describe your symptoms. 
 
 interface ChatPageProps {
   setSidebarOpen: (v: boolean) => void;
+  chatId: string;
+  onHistoryChange: () => void;
 }
 
-export default function ChatPage({ setSidebarOpen }: ChatPageProps) {
-  const [messages, setMessages] = useState<Message[]>(initialMessages);
+export default function ChatPage({ setSidebarOpen, chatId, onHistoryChange }: ChatPageProps) {
+  // Restore this session's history from device storage; fall back to greeting.
+  const [messages, setMessages] = useState<Message[]>(() => {
+    const stored = loadSession(chatId);
+    return stored && stored.messages.length > 0
+      ? (stored.messages as unknown as Message[])
+      : initialMessages;
+  });
   const [input, setInput] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<UploadCategory>(null);
   const [pendingFiles, setPendingFiles] = useState<UploadedFile[]>([]);
@@ -213,6 +223,29 @@ export default function ChatPage({ setSidebarOpen }: ChatPageProps) {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  // Persist the session to device storage whenever messages change.
+  // Sessions with no user message yet (just the greeting) are not saved.
+  useEffect(() => {
+    const firstUser = messages.find(m => m.role === 'user');
+    if (!firstUser) return;
+    const title = (firstUser.content || firstUser.files?.[0]?.name || 'New conversation').slice(0, 48);
+    saveSession({
+      id: chatId,
+      title,
+      updatedAt: Date.now(),
+      messages: messages.map(m => ({
+        id: m.id,
+        role: m.role,
+        content: m.content,
+        timestamp: m.timestamp,
+        status: m.status,
+        // Metadata only — File objects and base64 previews don't belong in localStorage.
+        files: m.files?.map(f => ({ id: f.id, name: f.name, category: f.category, size: f.size })),
+      })),
+    });
+    onHistoryChange();
+  }, [messages, chatId, onHistoryChange]);
 
   const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -285,6 +318,7 @@ export default function ChatPage({ setSidebarOpen }: ChatPageProps) {
     try {
       if (files.length > 0) {
         for (const f of files) {
+          if (!f.file) continue; // history-restored entries carry metadata only
           const imageType = categoryToImageType[f.category ?? ''] || 'auto';
           const context = f.category === 'medicine'
             ? `Identify this medicine, explain its use, dosage and side effects, and check for signs it may be counterfeit. ${text}`.trim()
@@ -386,33 +420,85 @@ export default function ChatPage({ setSidebarOpen }: ChatPageProps) {
   return (
     <div className="flex flex-col h-screen">
       {/* Header */}
-      <div className="flex-shrink-0 bg-white border-b border-[#E3EAF6] px-4 md:px-6 py-3 flex items-center gap-3">
+      <div className="flex-shrink-0 bg-white/80 backdrop-blur-xl border-b border-[#E3EAF6] px-4 md:px-6 py-3 flex items-center gap-3">
         <button className="md:hidden text-[#5B6B8C] p-1" onClick={() => setSidebarOpen(true)}>
           <Menu size={20} />
         </button>
-        <div className="w-9 h-9 bg-gradient-to-br from-[#2E6BE6] to-[#1E4FC0] rounded-xl flex items-center justify-center shadow-md shadow-blue-200">
-          <Stethoscope size={18} className="text-white" />
+        <div className="relative">
+          <div className="w-9 h-9 bg-gradient-to-br from-[#2E6BE6] to-[#1E4FC0] rounded-xl flex items-center justify-center shadow-md shadow-blue-200">
+            <Stethoscope size={18} className="text-white" />
+          </div>
+          <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#12A17C] border-2 border-white" />
         </div>
         <div className="flex-1 min-w-0">
           <div className="font-bold text-[#0F1E40] text-sm">LifeGuard NeXus AI</div>
           <div className="flex items-center gap-1.5 text-xs text-[#12A17C]">
-            <span className="w-1.5 h-1.5 bg-[#12A17C] rounded-full" />
+            <span className="relative flex w-1.5 h-1.5">
+              <span className="absolute inline-flex w-full h-full rounded-full bg-[#12A17C] opacity-60 animate-ping" />
+              <span className="relative inline-flex w-1.5 h-1.5 bg-[#12A17C] rounded-full" />
+            </span>
             Medical AI Online — Ready to analyze
           </div>
         </div>
         <div className="hidden md:flex items-center gap-2">
           <span className="text-xs text-[#8B98B5] bg-[#F5F8FE] border border-[#E3EAF6] px-3 py-1.5 rounded-full font-medium">
-            HIPAA Compliant
+            বাংলা · English · Banglish
           </span>
           <span className="text-xs text-[#8B98B5] bg-[#F5F8FE] border border-[#E3EAF6] px-3 py-1.5 rounded-full font-medium">
-            End-to-end Encrypted
+            999 emergency aware
           </span>
         </div>
       </div>
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto scrollbar-none px-4 md:px-8 py-6 space-y-6">
-        {messages.map(msg => (
+        {messages.length <= 1 ? (
+          /* Welcome — shown until the first user message, then the full thread takes over */
+          <div className="min-h-full flex flex-col items-center justify-center text-center animate-fade-in-up">
+            <div className="relative mb-5">
+              <div className="absolute inset-0 rounded-3xl bg-[#2E6BE6]/20 blur-2xl scale-150" />
+              <div className="relative w-16 h-16 bg-gradient-to-br from-[#2E6BE6] to-[#1E4FC0] rounded-3xl flex items-center justify-center shadow-xl shadow-blue-200">
+                <Stethoscope size={28} className="text-white" />
+              </div>
+              <span className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#12A17C] border-2 border-white" />
+            </div>
+            <h2
+              className="text-2xl md:text-3xl font-bold text-[#0F1E40]"
+              style={{ fontFamily: 'var(--font-bangla), var(--font-inter), sans-serif' }}
+            >
+              কেমন আছেন আজ?
+            </h2>
+            <p className="text-sm text-[#5B6B8C] mt-2 max-w-sm leading-relaxed">
+              Describe what you feel in Bangla, English, or Banglish — or upload a
+              prescription, report, or photo below.
+            </p>
+            <div className="grid sm:grid-cols-2 gap-2.5 mt-7 w-full max-w-lg">
+              {[
+                { icon: Stethoscope, text: 'buker bampashe betha, ki korbo?' },
+                { icon: Sparkles, text: 'জ্বর ও মাথাব্যথা দুই দিন ধরে' },
+                { icon: AlertCircle, text: 'sape kamor dile ki korbo?' },
+                { icon: Hospital, text: 'Find nearby hospitals', hospital: true },
+              ].map(({ icon: Icon, text, hospital }) => (
+                <button
+                  key={text}
+                  onClick={() => {
+                    if (hospital) {
+                      handleCategorySelect('hospital');
+                    } else {
+                      setInput(text);
+                    }
+                    textareaRef.current?.focus();
+                  }}
+                  className="flex items-center gap-2.5 bg-white border border-[#E3EAF6] hover:border-[#2E6BE6] rounded-xl px-4 py-3 text-left text-[13px] font-medium text-[#3D4E73] hover:text-[#2E6BE6] shadow-sm hover:shadow-md transition-all duration-200"
+                >
+                  <Icon size={15} className="flex-shrink-0 text-[#2E6BE6]" />
+                  <span className="truncate">{text}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : (
+          messages.map(msg => (
           <div
             key={msg.id}
             className={cn(
@@ -465,8 +551,8 @@ export default function ChatPage({ setSidebarOpen }: ChatPageProps) {
                   className={cn(
                     'rounded-2xl px-4 py-3 text-sm',
                     msg.role === 'user'
-                      ? 'bg-[#2E6BE6] text-white rounded-tr-sm'
-                      : 'bg-white border border-[#E3EAF6] text-[#3D4E73] rounded-tl-sm shadow-sm'
+                      ? 'bg-gradient-to-br from-[#2E6BE6] to-[#1E4FC0] text-white rounded-tr-sm shadow-md shadow-blue-200/60'
+                      : 'bg-white border border-[#E3EAF6] text-[#3D4E73] rounded-tl-sm shadow-[0_2px_12px_rgba(15,30,64,0.06)]'
                   )}
                 >
                   {msg.role === 'assistant' ? (
@@ -480,7 +566,8 @@ export default function ChatPage({ setSidebarOpen }: ChatPageProps) {
               <div className="text-[10px] text-[#B9C6E0] px-1">{msg.timestamp}</div>
             </div>
           </div>
-        ))}
+          ))
+        )}
 
         {/* Typing indicator */}
         {isTyping && (
@@ -587,7 +674,7 @@ export default function ChatPage({ setSidebarOpen }: ChatPageProps) {
             className={cn(
               'flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-200 shadow-md',
               (input.trim() || pendingFiles.length > 0)
-                ? 'bg-[#2E6BE6] text-white hover:bg-[#1E4FC0] shadow-blue-200 hover:shadow-blue-300 hover:-translate-y-0.5 active:scale-95 animate-pulse-glow'
+                ? 'bg-gradient-to-br from-[#2E6BE6] to-[#1E4FC0] text-white shadow-blue-200 hover:shadow-blue-300 hover:-translate-y-0.5 active:scale-95 animate-pulse-glow'
                 : 'bg-[#E3EAF6] text-[#B9C6E0] cursor-not-allowed'
             )}
           >
@@ -597,7 +684,7 @@ export default function ChatPage({ setSidebarOpen }: ChatPageProps) {
         <div className="flex items-center justify-between mt-2 px-1">
           <div className="flex items-center gap-1 text-[10px] text-[#B9C6E0]">
             <Shield size={10} />
-            Files encrypted — not stored permanently
+            Files are analyzed only — never stored
           </div>
           <div className="text-[10px] text-[#B9C6E0]">Enter to send · Shift+Enter for new line</div>
         </div>

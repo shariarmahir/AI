@@ -21,8 +21,8 @@ async def analyze_image(
     image_type: str = Form("auto"),
     context: str = Form("")
 ):
-    if image_type not in ("injury", "prescription", "report", "skin", "auto"):
-        raise HTTPException(status_code=400, detail="image_type must be one of: injury, prescription, report, skin, auto")
+    if image_type not in ("injury", "prescription", "report", "skin", "medicine", "auto"):
+        raise HTTPException(status_code=400, detail="image_type must be one of: injury, prescription, report, skin, medicine, auto")
 
     try:
         content = await image.read()

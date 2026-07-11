@@ -56,6 +56,15 @@ export interface Hospital {
   location: { lat: number; lng: number };
   place_id: string;
   maps_url: string;
+  /** Straight-line distance the backend computed against the coords it searched. */
+  distance_meters?: number | null;
+  /** 'local' when served from the curated dataset because Google Places was unavailable. */
+  source?: 'google' | 'local';
+  /** Local dataset only — Google Places does not return these. */
+  phone?: string | null;
+  emergency_24_7?: boolean | null;
+  has_ambulance?: boolean | null;
+  specialties?: string[];
 }
 
 export interface TriageResponse {

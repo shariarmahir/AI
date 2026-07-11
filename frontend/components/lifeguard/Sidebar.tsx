@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { PageView } from '@/app/page';
 import {
   Home,
@@ -10,19 +11,27 @@ import {
   Menu,
   X,
   ChevronRight,
-  Bell,
-  Settings,
-  LogOut,
-  User,
-  Activity,
+  PhoneCall,
+  Plus,
+  Trash2,
+  Stethoscope,
+  FileText,
+  Camera,
+  Microscope,
+  Pill,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { listSessions, deleteSession, timeAgo, type ChatSession } from '@/lib/chatHistory';
 
 interface SidebarProps {
   page: PageView;
   setPage: (p: PageView) => void;
   sidebarOpen: boolean;
   setSidebarOpen: (v: boolean) => void;
+  chatId: string;
+  historyVersion: number;
+  onSelectChat: (id: string) => void;
+  onNewChat: () => void;
 }
 
 const navItems = [
@@ -32,7 +41,28 @@ const navItems = [
   { id: 'hospitals' as PageView, icon: Hospital, label: 'Hospitals', desc: 'Find nearby' },
 ];
 
-export default function Sidebar({ page, setPage, sidebarOpen, setSidebarOpen }: SidebarProps) {
+export default function Sidebar({
+  page,
+  setPage,
+  sidebarOpen,
+  setSidebarOpen,
+  chatId,
+  historyVersion,
+  onSelectChat,
+  onNewChat,
+}: SidebarProps) {
+  // Loaded after mount (not during SSR) to avoid hydration mismatches.
+  const [sessions, setSessions] = useState<ChatSession[]>([]);
+  useEffect(() => {
+    setSessions(listSessions());
+  }, [historyVersion]);
+
+  const handleDelete = (id: string) => {
+    deleteSession(id);
+    setSessions(listSessions());
+    if (id === chatId) onNewChat();
+  };
+
   return (
     <>
       {/* Mobile hamburger */}
@@ -65,7 +95,7 @@ export default function Sidebar({ page, setPage, sidebarOpen, setSidebarOpen }: 
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 px-3 py-4 space-y-1">
+        <nav className="px-3 py-4 space-y-1">
           {navItems.map(({ id, icon: Icon, label, desc }) => (
             <button
               key={id}
@@ -98,41 +128,126 @@ export default function Sidebar({ page, setPage, sidebarOpen, setSidebarOpen }: 
           ))}
         </nav>
 
-        {/* Health status badge */}
-        <div className="mx-3 mb-3 p-3 rounded-xl bg-gradient-to-r from-[#E9F7F2] to-[#EAF1FE] border border-[#C9D9F5]">
-          <div className="flex items-center gap-2 mb-1">
-            <Activity size={14} className="text-[#12A17C]" />
-            <span className="text-xs font-semibold text-[#12A17C]">Health Status</span>
+        {/* Care tools — each opens a fresh AI chat ready for that task */}
+        <div className="px-3 pb-3">
+          <div className="px-2 mb-2 text-[10px] font-bold text-[#8B98B5] uppercase tracking-widest">
+            Care tools
           </div>
-          <div className="text-xs text-[#3D4E73]">All vitals look normal</div>
-          <div className="mt-2 h-1.5 rounded-full bg-[#CFEEE1] overflow-hidden">
-            <div className="h-full w-4/5 rounded-full bg-gradient-to-r from-[#12A17C] to-[#2E6BE6]" />
+          <div className="grid grid-cols-2 gap-1.5">
+            {[
+              { icon: Stethoscope, label: 'Symptoms' },
+              { icon: FileText, label: 'Prescription' },
+              { icon: Camera, label: 'Injury photo' },
+              { icon: Microscope, label: 'Lab report' },
+              { icon: Pill, label: 'Medicine ID' },
+              { icon: Hospital, label: 'Hospitals', page: 'hospitals' as PageView },
+            ].map(({ icon: Icon, label, page: target }) => (
+              <button
+                key={label}
+                onClick={() => {
+                  if (target) {
+                    setPage(target);
+                    setSidebarOpen(false);
+                  } else {
+                    onNewChat();
+                  }
+                }}
+                className="flex items-center gap-1.5 px-2.5 py-2 rounded-lg bg-[#F5F8FE] hover:bg-[#EAF1FE] border border-transparent hover:border-[#C9D9F5] text-[#3D4E73] hover:text-[#2E6BE6] transition-colors"
+              >
+                <Icon size={12} className="flex-shrink-0" />
+                <span className="text-[11px] font-semibold truncate">{label}</span>
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Notification */}
-        <div className="mx-3 mb-3">
-          <button className="w-full flex items-center gap-2 px-3 py-2.5 rounded-xl border border-[#E3EAF6] text-[#5B6B8C] hover:bg-[#F5F8FE] transition-colors text-sm">
-            <Bell size={15} />
-            <span className="flex-1 text-left font-medium">Notifications</span>
-            <span className="bg-[#E05252] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">3</span>
-          </button>
-        </div>
-
-        {/* User footer */}
-        <div className="border-t border-[#E3EAF6] px-3 py-3">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#A8C3F5] to-[#2E6BE6] flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
-              P
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="text-sm font-semibold text-[#26355A] truncate">Patient</div>
-              <div className="text-xs text-[#8B98B5] truncate">patient@email.com</div>
-            </div>
-            <button className="text-[#8B98B5] hover:text-[#E05252] transition-colors p-1">
-              <LogOut size={15} />
+        {/* Recent chats — device-local history */}
+        <div className="flex-1 min-h-0 flex flex-col px-3 pb-2">
+          <div className="flex items-center justify-between px-2 mb-2">
+            <span className="text-[10px] font-bold text-[#8B98B5] uppercase tracking-widest">
+              Recent chats
+            </span>
+            <button
+              onClick={onNewChat}
+              title="New chat"
+              className="flex items-center gap-1 text-[11px] font-semibold text-[#2E6BE6] hover:text-[#1E4FC0] bg-[#EAF1FE] hover:bg-[#DCE8FC] px-2 py-1 rounded-lg transition-colors"
+            >
+              <Plus size={11} />
+              New
             </button>
           </div>
+
+          {sessions.length === 0 ? (
+            <p className="px-2 text-xs text-[#B9C6E0] leading-relaxed">
+              No conversations yet. Your chats are saved on this device only.
+            </p>
+          ) : (
+            <div className="flex-1 overflow-y-auto scrollbar-none space-y-0.5 pr-0.5">
+              {sessions.map(s => {
+                const active = page === 'chat' && s.id === chatId;
+                return (
+                  <div
+                    key={s.id}
+                    className={cn(
+                      'group flex items-center gap-2 rounded-lg transition-colors',
+                      active ? 'bg-[#EAF1FE]' : 'hover:bg-[#F5F8FE]'
+                    )}
+                  >
+                    <button
+                      onClick={() => onSelectChat(s.id)}
+                      className="flex-1 min-w-0 flex items-center gap-2 px-2 py-2 text-left"
+                    >
+                      <MessageSquare
+                        size={13}
+                        className={cn('flex-shrink-0', active ? 'text-[#2E6BE6]' : 'text-[#B9C6E0]')}
+                      />
+                      <span
+                        className={cn(
+                          'flex-1 min-w-0 truncate text-xs font-medium',
+                          active ? 'text-[#1E4FC0]' : 'text-[#3D4E73]'
+                        )}
+                      >
+                        {s.title}
+                      </span>
+                      <span className="flex-shrink-0 text-[10px] text-[#B9C6E0]">{timeAgo(s.updatedAt)}</span>
+                    </button>
+                    <button
+                      onClick={() => handleDelete(s.id)}
+                      title="Delete chat"
+                      className="flex-shrink-0 p-1.5 mr-1 rounded-md text-[#B9C6E0] opacity-0 group-hover:opacity-100 hover:text-[#E05252] hover:bg-[#FDEEEE] transition-all"
+                    >
+                      <Trash2 size={12} />
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Emergency card — real, always-true utility */}
+        <div className="mx-3 mb-3 p-4 rounded-2xl bg-gradient-to-br from-[#FDEEEE] to-[#FBF3E4] border border-[#F5CFCF]">
+          <div className="flex items-center gap-2 mb-1.5">
+            <PhoneCall size={14} className="text-[#E05252]" />
+            <span className="text-xs font-bold text-[#A33B3B] uppercase tracking-wide">Emergency</span>
+          </div>
+          <p className="text-xs text-[#8A5050] leading-relaxed mb-2.5">
+            Severe chest pain, breathing trouble, or heavy bleeding? Don&rsquo;t wait for the app.
+          </p>
+          <a
+            href="tel:999"
+            className="flex items-center justify-center gap-1.5 w-full bg-[#E05252] hover:bg-[#A33B3B] text-white text-sm font-bold py-2 rounded-xl transition-colors shadow-sm shadow-red-200"
+          >
+            <PhoneCall size={13} />
+            Call 999
+          </a>
+        </div>
+
+        {/* Footer */}
+        <div className="border-t border-[#E3EAF6] px-5 py-3.5">
+          <p className="text-[10px] leading-relaxed text-[#8B98B5]">
+            AI guidance — not a diagnosis. Always consult a qualified doctor.
+          </p>
         </div>
       </aside>
     </>

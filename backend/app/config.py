@@ -20,7 +20,9 @@ class Settings(BaseSettings):
     # NVIDIA NIM (preferred provider when NVIDIA_API_KEY is set)
     NIM_BASE_URL: str = "https://integrate.api.nvidia.com/v1"
     NIM_MODEL: str = "mistralai/mistral-small-4-119b-2603"
-    NIM_VISION_MODEL: str = "meta/llama-3.2-90b-vision-instruct"
+    # Mistral Small handles medical images; llama-3.2-vision hard-refuses them
+    # ("I'm not able to view the image") regardless of prompting.
+    NIM_VISION_MODEL: str = "mistralai/mistral-small-4-119b-2603"
 
     # Embeddings
     EMBEDDING_MODEL: str = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
@@ -40,6 +42,7 @@ class Settings(BaseSettings):
     # Data paths
     DISEASES_DATA_PATH: str = "./data/diseases.json"
     QA_DATA_PATH: str = "./data/qa_pairs.json"
+    HOSPITALS_DATA_PATH: str = "./data/hospitals_dhaka.json"
 
     class Config:
         env_file = ".env"
