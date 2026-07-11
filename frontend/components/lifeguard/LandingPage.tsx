@@ -79,6 +79,16 @@ const PATH =
     return `${i === 0 ? 'M' : 'L'}${x.toFixed(1)} ${y.toFixed(1)}`;
   }).join(' ') + ' Z';
 
+/* The photographic relief map (public/bd-map.png) is square, with the country
+   occupying a sub-region of the frame. These four numbers are the % of the
+   image covered by the country's lat/lng bounding box — nudge them if pins
+   drift after swapping the artwork. */
+const IMG_BOUNDS = { left: 12, right: 84, top: 7, bottom: 94 };
+const imgPos = (lat: number, lng: number) => ({
+  left: IMG_BOUNDS.left + ((lng - 88.0) / (92.7 - 88.0)) * (IMG_BOUNDS.right - IMG_BOUNDS.left),
+  top: IMG_BOUNDS.top + ((26.65 - lat) / (26.65 - 20.7)) * (IMG_BOUNDS.bottom - IMG_BOUNDS.top),
+});
+
 /* Eight divisions — HQ coordinates, 2022 census population (millions),
    and the real referral hospital anchoring care there. */
 type Tone = 'indigo' | 'mint' | 'amber' | 'coral';
@@ -177,6 +187,16 @@ export default function LandingPage({ setPage }: LandingPageProps) {
   const people = useCountUp(POPULATION);
   const stageRef = useRef<HTMLDivElement>(null);
   const fine = useRef(false);
+  // Photographic relief map, with the porcelain SVG as fallback until
+  // public/bd-map.png exists. Probed from an effect rather than <img onError>:
+  // with SSR the 404 fires before React attaches the handler, so the error
+  // event would be lost and a broken-image icon shown.
+  const [imgOk, setImgOk] = useState(false);
+  useEffect(() => {
+    const probe = new Image();
+    probe.onload = () => setImgOk(true);
+    probe.src = '/bd-map.png';
+  }, []);
 
   useEffect(() => {
     fine.current =
@@ -346,10 +366,10 @@ export default function LandingPage({ setPage }: LandingPageProps) {
           </div>
 
           {/* Right — porcelain relief of Bangladesh with beeping division pins */}
-          <div className="relative mx-auto w-full max-w-[400px] lg:max-w-[440px] select-none">
+          <div className="relative mx-auto w-full max-w-[440px] lg:max-w-[500px] select-none">
             {/* Dhono Dhanno Pushpo Bhora — D. L. Roy, 1905 */}
-            <div className="bd-rise text-center mb-6" style={{ animationDelay: '0.3s' }}>
-              <p className="text-[13px] md:text-sm leading-[1.9] text-[#3D4E73] font-medium" style={bangla}>
+            <div className="bd-rise text-center mb-5" style={{ animationDelay: '0.3s' }}>
+              <p className="text-sm md:text-base lg:text-[17px] leading-[2.05] text-[#26355A] font-semibold" style={bangla}>
                 ধনধান্য পুষ্প ভরা আমাদের এই বসুন্ধরা
                 <br />
                 তাহার মাঝে আছে দেশ এক সকল দেশের সেরা
@@ -368,6 +388,15 @@ export default function LandingPage({ setPage }: LandingPageProps) {
                 className="relative transition-transform duration-200 ease-out will-change-transform"
                 style={{ transform: 'perspective(1200px) rotateX(11deg) rotateY(0deg)' }}
               >
+                {imgOk ? (
+                  <img
+                    src="/bd-map.png"
+                    alt="Relief map of Bangladesh"
+                    draggable={false}
+                    onError={() => setImgOk(false)}
+                    className="w-full h-auto pointer-events-none select-none drop-shadow-[0_30px_45px_rgba(63,70,120,0.35)]"
+                  />
+                ) : (
                 <svg viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} className="w-full h-auto" aria-hidden>
                   <defs>
                     <linearGradient id="bdFace" x1="0" y1="0" x2="0.9" y2="1">
@@ -394,10 +423,16 @@ export default function LandingPage({ setPage }: LandingPageProps) {
                     <path d="M101 176 C 118 190, 138 198, 149 210 C 152 228, 148 244, 146 258" strokeWidth="7" />
                   </g>
                 </svg>
+                )}
 
                 {/* Division pins — positioned by the same projection */}
                 {DIVISIONS.map((d, i) => {
                   const { x, y } = project(d.lat, d.lng);
+                  // Image and SVG frame the country differently, so each mode
+                  // has its own lat/lng → % mapping.
+                  const pos = imgOk
+                    ? imgPos(d.lat, d.lng)
+                    : { left: (x / VIEW_W) * 100, top: (y / VIEW_H) * 100 };
                   const t = TONES[d.tone];
                   const Icon = d.icon;
                   return (
@@ -406,7 +441,7 @@ export default function LandingPage({ setPage }: LandingPageProps) {
                       onClick={() => setPage('hospitals')}
                       aria-label={`${d.en} division — ${d.note}. See hospitals.`}
                       className="group absolute -translate-x-1/2 -translate-y-full z-10 hover:z-30 focus-visible:z-30 outline-none"
-                      style={{ left: `${(x / VIEW_W) * 100}%`, top: `${(y / VIEW_H) * 100}%` }}
+                      style={{ left: `${pos.left}%`, top: `${pos.top}%` }}
                     >
                       <span className="bd-pop flex flex-col items-center" style={{ animationDelay: `${0.55 + i * 0.09}s` }}>
                         <span
