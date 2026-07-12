@@ -44,9 +44,20 @@ class Settings(BaseSettings):
     # cors_origins_list to read it. Both "a,b" and '["a","b"]' are accepted.
     CORS_ORIGINS: str = "http://localhost:3000,http://localhost:3001"
 
-    # Every Vercel deploy mints a new preview URL, so an exact-match whitelist goes
-    # stale on the next deploy. Match them all by pattern instead.
-    CORS_ORIGIN_REGEX: str = r"https://.*\.vercel\.app"
+    # Every Vercel deploy mints a new URL, so an exact-match whitelist goes stale on
+    # the next push. Match by pattern instead — but scoped to THIS project only.
+    #
+    # A broad r"https://.*\.vercel\.app" would be a real vulnerability: anyone can
+    # deploy to vercel.app in minutes, and with allow_credentials=True that lets an
+    # attacker's site make credentialed cross-origin calls and read the responses.
+    #
+    # Covers both forms this project actually serves:
+    #   frontend-psi-opal-71.vercel.app                        (stable alias)
+    #   frontend-7rbk3ue7x-mahirs-projects-a89fb7dd.vercel.app (per-deploy)
+    # Anchored with \A...\Z so no prefix/suffix can smuggle in another host.
+    CORS_ORIGIN_REGEX: str = (
+        r"\Ahttps://frontend-[a-z0-9-]+(-mahirs-projects-a89fb7dd)?\.vercel\.app\Z"
+    )
 
     @property
     def cors_origins_list(self) -> list[str]:
