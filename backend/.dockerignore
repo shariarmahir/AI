@@ -3,7 +3,10 @@ __pycache__/
 *.pyo
 .env
 .env.local
-chroma_db/
+# chroma_db/ is deliberately NOT ignored — the prebuilt index must ship inside
+# the image. The free tier has no persistent disk and only 512MB RAM, so without
+# it the container re-embeds 1,232 docs on every cold start and OOMs before it
+# can bind a port. Rebuild with: python -m app.rag.ingestion --reset
 *.egg-info/
 .pytest_cache/
 .venv/
