@@ -24,8 +24,10 @@ class Settings(BaseSettings):
     # ("I'm not able to view the image") regardless of prompting.
     NIM_VISION_MODEL: str = "mistralai/mistral-small-4-119b-2603"
 
-    # Embeddings
-    EMBEDDING_MODEL: str = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+    # Embeddings. Reported by /health. The actual embedder is chromadb's bundled
+    # ONNX MiniLM (see app/rag/embeddings.py), chosen so the container fits in
+    # 512MB — sentence-transformers pulled in ~300MB of PyTorch runtime.
+    EMBEDDING_MODEL: str = "chromadb/onnx-all-MiniLM-L6-v2"
 
     # ChromaDB
     CHROMA_PERSIST_DIR: str = "./chroma_db"

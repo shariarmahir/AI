@@ -7,12 +7,10 @@ openai==2.44.0
 # chromadb 0.4.24 still uses np.float_, which NumPy 2.0 removed. Must stay
 # on the 1.x line or the app crashes at import with AttributeError.
 numpy==1.26.4
+# Embeddings come from chromadb's bundled ONNX MiniLM (see app/rag/embeddings.py).
+# torch + sentence-transformers were removed deliberately: they added ~300MB of
+# resident memory for a 22M-param model and blew the 512MB container limit.
 chromadb==0.4.24
-# CPU-only wheel (~200MB vs multi-GB CUDA) — Render's free tier has no GPU.
-# Version matches the one verified working locally with transformers 4.57.x.
---extra-index-url https://download.pytorch.org/whl/cpu
-torch==2.12.1+cpu
-sentence-transformers==2.7.0
 pydantic==2.5.3
 pydantic-settings==2.1.0
 httpx==0.27.2
