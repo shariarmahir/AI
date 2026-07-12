@@ -20,7 +20,11 @@ out/
 .yarn/
 
 # RAG / data
-chroma_db/
+# backend/chroma_db is deliberately COMMITTED (~9MB). The free-tier container has
+# no persistent disk and only 512MB RAM, so re-embedding 1,232 docs on every cold
+# start OOM'd it. Shipping the prebuilt index turns startup into a disk read.
+# Rebuild after changing the data or the embedder:
+#   cd backend && python -m app.rag.ingestion --reset
 
 # IDE
 .vscode/

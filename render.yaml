@@ -13,8 +13,9 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9
-      - key: PORT
-        value: 8000
+      # PORT is deliberately NOT set here. Render injects its own $PORT and scans
+      # for a listener on it; hardcoding 8000 made uvicorn bind the wrong port,
+      # which surfaced as "No open ports detected". The Dockerfile CMD reads $PORT.
       # CORS_ORIGINS is parsed by pydantic as a list. Render passes env vars as
       # strings, so use JSON-array form: ["https://your-app.vercel.app"]
       - key: CORS_ORIGINS
