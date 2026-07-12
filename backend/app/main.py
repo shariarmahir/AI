@@ -49,13 +49,18 @@ def create_app() -> FastAPI:
         lifespan=lifespan
     )
 
+    # allow_origin_regex covers every *.vercel.app deployment: each Vercel deploy
+    # gets a fresh URL, so an exact-match whitelist goes stale immediately.
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.CORS_ORIGINS,
+        allow_origins=settings.cors_origins_list,
+        allow_origin_regex=settings.CORS_ORIGIN_REGEX or None,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
     )
+    print(f"[CORS] origins: {settings.cors_origins_list}")
+    print(f"[CORS] regex:   {settings.CORS_ORIGIN_REGEX}")
 
     # Routes
     app.include_router(health.router)

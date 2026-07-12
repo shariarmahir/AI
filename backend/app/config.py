@@ -1,4 +1,5 @@
 """Application configuration loaded from environment variables."""
+import json
 from pydantic_settings import BaseSettings
 from functools import lru_cache
 
@@ -35,7 +36,29 @@ class Settings(BaseSettings):
 
     # Server
     PORT: int = 8000
-    CORS_ORIGINS: list[str] = ["http://localhost:3000", "http://localhost:3001"]
+
+    # Deliberately a plain str, not list[str]. pydantic-settings JSON-decodes any
+    # "complex" field (list/dict) inside its env source — *before* field validators
+    # run — so a comma-separated CORS_ORIGINS from Render raised SettingsError and
+    # crashed the app at startup. Keeping it a str bypasses that machinery; use
+    # cors_origins_list to read it. Both "a,b" and '["a","b"]' are accepted.
+    CORS_ORIGINS: str = "http://localhost:3000,http://localhost:3001"
+
+    # Every Vercel deploy mints a new preview URL, so an exact-match whitelist goes
+    # stale on the next deploy. Match them all by pattern instead.
+    CORS_ORIGIN_REGEX: str = r"https://.*\.vercel\.app"
+
+    @property
+    def cors_origins_list(self) -> list[str]:
+        raw = (self.CORS_ORIGINS or "").strip()
+        if not raw:
+            return []
+        if raw.startswith("["):
+            try:
+                return [str(o).strip() for o in json.loads(raw) if str(o).strip()]
+            except json.JSONDecodeError:
+                pass  # malformed JSON — fall through to comma-splitting
+        return [o.strip() for o in raw.split(",") if o.strip()]
 
     # Safety
     MIN_CONFIDENCE_THRESHOLD: float = 0.4
